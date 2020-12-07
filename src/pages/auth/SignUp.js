@@ -15,7 +15,7 @@ export default function SignIn() {
 			signInWithGoogle();
 		}
 		else {
-			setOpen(true)
+			setOpen(true);
 		}
 	};
 	return (

@@ -1,27 +1,32 @@
 import React, {useState} from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
+import {auth} from '../../firebase/index'
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
-import {useDispatch} from "react-redux";
-import {setNewUserData} from "../../Store/Actions/UsersActions";
-const FirstStep = ({onNext})=>{
+import {useDispatch, useSelector} from "react-redux";
+import {insertDetails, setNewUserData} from "../../Store/Actions/UsersActions";
+const FourthStep = ({onNext,onFinish})=>{
 	const dispatch = useDispatch();
-	const [fullName,setFullName] = useState("");
-	const [grade,setGrade] = useState("");
+	const [meetLink,setLink] = useState("");
 	const [error,setError] = useState(false);
 	const [open,setOpen] = useState(false);
+	const stateProps = useSelector(({User})=>{
+		return {
+			...User
+		};
+	});
+	const {newData,loading} = stateProps;
 	const handleSubmit = (e)=>{
 		e.preventDefault();
-		if(fullName==="" || grade === ""){
-			setError("Please fill all the fields.");
+		if(meetLink===""){
+			setError("Please insert a link first.");
 			setOpen(true);
 			return;
 		}
-		if(parseInt(grade)>10){ setError("Invalid Grade!"); setOpen(true); return;  }
-		dispatch(setNewUserData({fullName,grade}));
-		onNext();
+		 dispatch(insertDetails({...newData,id: auth.currentUser.uid, email: auth.currentUser.email,  meetLink},()=>{
+		        onFinish();
+         }));
 	};
 	return (
 		<div className="d-flex justify-content-center align-items-center c-h-100">
@@ -29,33 +34,19 @@ const FirstStep = ({onNext})=>{
 				<span className={"c-h1"}>Welcome</span>
 				<p> Let's setup you account. </p>
 				<form noValidate autoComplete="off" onSubmit={handleSubmit}>
+					<p>Go to meet.google.com using the same Google Account you signed up with and get a Google Meet link. This will be the permanent link you use to host help sessions.</p>
+					<p>Paste your Google Meet link.</p>
 					<TextField
 						fullWidth
 						error={false}
-						name={"fullname"}
-						label="Full Name"
-						defaultValue={fullName}
+						name={"link"}
+						label="Link"
+						defaultValue={meetLink}
 						className={"mb-2"}
-						onChange={e=>setFullName(e.target.value)}
+						onChange={e=>setLink(e.target.value)}
 						variant="outlined"
 						required
-						value={fullName}
-						error={error}
-					/>
-					<TextField
-						fullWidth
-						error={false}
-						id="outlined-error-helper-text"
-						label="Grade"
-						name={"grade"}
-						value={grade}
-						onChange={e=>setGrade(e.target.value)}
-						defaultValue={grade}
-						variant="outlined"
-						required
-						className={"mb-2"}
-						type="number"
-						InputProps={{ inputProps: { min: 1, max: 10 } }}
+						value={meetLink}
 						error={error}
 					/>
 					<Button
@@ -63,9 +54,9 @@ const FirstStep = ({onNext})=>{
 						type={"submit"}
 						variant="contained"
 						className={"c-button"}
-						endIcon={<ArrowForwardIcon />}
+						// endIcon={<ArrowForwardIcon />}
 					>
-						Next
+                        Finish
 					</Button>
 				</form>
 			</div>
@@ -78,4 +69,4 @@ const FirstStep = ({onNext})=>{
 	);
 };
 
-export default FirstStep;
+export default FourthStep;

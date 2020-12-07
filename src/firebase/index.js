@@ -6,6 +6,7 @@ import "firebase/database";
 const firebaseConfig = {
 	apiKey: "AIzaSyA1ei3rPtBsWBp4yYwUbyExZeyhwSSd9TQ",
 	authDomain: "gethelp-41219.firebaseapp.com",
+	databaseURL: "https://gethelp-41219-default-rtdb.firebaseio.com",
 	projectId: "gethelp-41219",
 	storageBucket: "gethelp-41219.appspot.com",
 	messagingSenderId: "1081308066793",

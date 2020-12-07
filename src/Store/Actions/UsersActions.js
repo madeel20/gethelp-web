@@ -1,14 +1,21 @@
-import {getCollection} from "../../firebase/helpers";
+
 import Users from "../Constants/Users";
-import {convertToArray} from "../../utils/helpers";
+import {insertToFirestore} from "../../firebase/helpers";
 export const getUsers = (CB) => async (dispatch) => {
-    dispatch({type:Users.GET_ALL_USERS,payload:{ loading:true }})
-    getCollection('users').then(res=>{
-        dispatch({type:Users.GET_ALL_USERS,payload:{loading:false, data:convertToArray(res) }});
-        CB && CB();
-    })
-        .catch((error) => {
-            console.log(error);
-            dispatch({ type: Users.GET_ALL_USERS, loading: false });
-        });
+
+};
+
+export const setNewUserData = (data)=> dispatch =>{
+	dispatch({type: Users.SET_NEW_USER_DATA, payload: data});
+};
+
+export const insertDetails = (payload,CB) => dispatch => {
+	insertToFirestore(
+		payload,
+		"users",
+		async () => {
+			CB && CB();
+		}
+	);
+
 };

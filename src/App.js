@@ -6,9 +6,12 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import AuthStack from "./stacks/AuthStack";
 import {store} from "./Store";
 import HelperUserStack from "./stacks/HelperUserStack";
+import {checkIfItsNewUser} from "./firebase/helpers";
+import NewUserStack from "./stacks/NewUserStack";
 function App() {
 	const [user, setuser] = useState(null);
 	const [isLoading, setLoading] = useState(true);
+	const [isNewUser, setIsNewUser] = useState(null);
 	useEffect(() => {
 		auth.onAuthStateChanged(async (user) => {
 			if (user) {
@@ -17,7 +20,21 @@ function App() {
 					displayName,
 					email,
 				});
-				setLoading(false);
+				checkIfItsNewUser().then(isNewUser=>{
+					if(isNewUser ===null) {
+						setIsNewUser(null);
+					}
+					else if(isNewUser===true){
+						setIsNewUser(true);
+					}
+					else{
+						setIsNewUser(false);
+					}
+					setLoading(false);
+				}).catch((err)=>{
+					console.log(err);
+				});
+
 			}
 			else {
 				setuser(null);
@@ -32,11 +49,18 @@ function App() {
 	if(!user){
 		return  <AuthStack />;
 	}
+
+	if(user && isNewUser){
+		return <Provider store={store}>
+			<NewUserStack onFinish={()=>setIsNewUser(false)}/>
+		</Provider>;
+	}
 	return (
 		<Provider store={store}>
 			<HelperUserStack/>
 		</Provider>
 	);
+
 }
 
 export default App;

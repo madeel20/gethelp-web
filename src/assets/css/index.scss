@@ -9,3 +9,18 @@
 .c-p{
   font-size: $p-size;
 }
+.c-button{
+  background-color: $theme-color !important;
+  color: white !important;
+}
+
+.c-form{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  fieldset{
+    margin-bottom: 30px;
+  }
+}

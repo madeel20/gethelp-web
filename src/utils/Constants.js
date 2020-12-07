@@ -1,0 +1,4 @@
+export const UserRoles ={
+	HELPER_USER:"HELPER_USER",
+	NORMAL_USER:"NORMAL_USER"
+};
