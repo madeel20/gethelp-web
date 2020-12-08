@@ -1,14 +1,14 @@
 import Users from "../Constants/Users";
 const initialState = {
 	loading:false,
-	data:[],
+	data:{},
 	newData:{},
 };
 export default (state = initialState, action = {}) => {
 	switch (action.type) {
-	case Users.GET_ALL_USERS:
+	case Users.GET_USER_DATA:
 		return {
-			...state,...action.payload
+			...state,data:action.payload
 		};
 	case Users.INSERT_USER_DETAILS:
 		return {

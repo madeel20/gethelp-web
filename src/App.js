@@ -5,9 +5,9 @@ import { auth } from "./firebase";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import AuthStack from "./stacks/AuthStack";
 import {store} from "./Store";
-import HelperUserStack from "./stacks/HelperUserStack";
 import {checkIfItsNewUser} from "./firebase/helpers";
 import NewUserStack from "./stacks/NewUserStack";
+import MainStack from "./stacks/MainStack";
 function App() {
 	const [user, setuser] = useState(null);
 	const [isLoading, setLoading] = useState(true);
@@ -49,7 +49,6 @@ function App() {
 	if(!user){
 		return  <AuthStack />;
 	}
-
 	if(user && isNewUser){
 		return <Provider store={store}>
 			<NewUserStack onFinish={()=>setIsNewUser(false)}/>
@@ -58,7 +57,7 @@ function App() {
 	if(user && !isNewUser) {
 		return (
 			<Provider store={store}>
-				<HelperUserStack/>
+				<MainStack/>
 			</Provider>
 		);
 	}

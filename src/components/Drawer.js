@@ -19,6 +19,9 @@ import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 import {logOut} from "../firebase/helpers";
+import {useSelector} from "react-redux";
+import {MappedElement} from "../utils/helpers";
+import {Link} from "react-router-dom";
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -29,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 			easing: theme.transitions.easing.sharp,
 			duration: theme.transitions.duration.leavingScreen,
 		}),
+		backgroundColor:"#F0826E"
 	},
 	appBarShift: {
 		width: `calc(100% - ${drawerWidth}px)`,
@@ -76,15 +80,17 @@ const useStyles = makeStyles((theme) => ({
 		marginLeft: 0,
 	},
 }));
-export default function PersistentDrawerLeft() {
+export default function PersistentDrawerLeft({routes}) {
 	const classes = useStyles();
 	const theme = useTheme();
 	const [open, setOpen] = React.useState(true);
-
+	const stateProps = useSelector(({User})=>{
+		return {...User};
+	});
+	const { data } = stateProps;
 	const handleDrawerOpen = () => {
 		setOpen(true);
 	};
-
 	const handleDrawerClose = () => {
 		setOpen(false);
 	};
@@ -108,9 +114,6 @@ export default function PersistentDrawerLeft() {
 					>
 						<MenuIcon />
 					</IconButton>
-					<Typography variant="h6" noWrap>
-                        Persistent drawer
-					</Typography>
 				</Toolbar>
 			</AppBar>
 			<Drawer
@@ -128,13 +131,21 @@ export default function PersistentDrawerLeft() {
 					</IconButton>
 				</div>
 				<Divider />
+				<div className={"drawer-user-info"}>
+					<Typography variant="h6" noWrap>
+						Hi, {data.fullName}
+					</Typography>
+					<a href={data.meetLink}> <p>{data.meetLink}</p></a>
+				</div>
+				<Divider />
 				<List>
-					{["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-						<ListItem button key={text}>
-							<ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-							<ListItemText primary={text} />
-						</ListItem>
-					))}
+					<MappedElement data={routes} renderElement={(obj,index)=>{
+						return <Link to={obj.route} key={obj.route}>
+							<ListItem button>
+								<ListItemText primary={obj.title} />
+							</ListItem>
+						</Link>;
+					}}/>
 				</List>
 				<Divider />
 				<ListItem button onClick={()=> logOut()} >

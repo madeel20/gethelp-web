@@ -24,3 +24,23 @@
     margin-bottom: 30px;
   }
 }
+.layout{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  padding-top: 100px;
+}
+a{
+  text-decoration: none;
+  color: grey;
+}
+.drawer-user-info{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0px 20px 0px;
+  p{
+    color:grey;
+  }
+}

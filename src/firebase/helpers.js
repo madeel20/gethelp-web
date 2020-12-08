@@ -1,6 +1,7 @@
 import {auth,googleProvider,firestore} from "./index";
 import {convertToArray} from "../utils/helpers";
-
+import {store} from "../Store/index";
+import Users from "../Store/Constants/Users";
 export const signInWithGoogle = () => {
 	auth.signInWithPopup(googleProvider).then((res) => {
 		// user object
@@ -11,7 +12,7 @@ export const signInWithGoogle = () => {
 };
 export const logOut = () => {
 	auth.signOut().then(()=> {
-		
+
 	}).catch((error) => {
 		console.log(error.message);
 	});
@@ -23,6 +24,7 @@ export const checkIfItsNewUser = async () => {
 		.get()
 		.then(async (res) => {
 			if(res.docs.length >0){
+				store.dispatch({type:Users.GET_USER_DATA,payload:res.docs[0].data()});
 				return false;
 			}
 			else {
