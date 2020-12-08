@@ -13,7 +13,7 @@ const HelperUserStack = ()=>{
 			<div className="layout">
 				<Switch>
 					<MappedElement data={HelperUserRoutes} renderElement={(obj, index )=>{
-						return	<Route path={obj.route} component={obj.component} exact={obj.exact}>
+						return	<Route key={obj.route} path={obj.route} component={obj.component} exact={obj.exact}>
 						</Route>;
 					}} />
 				</Switch>

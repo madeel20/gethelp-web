@@ -1,6 +1,7 @@
 
 import Users from "../Constants/Users";
-import {insertToFirestore} from "../../firebase/helpers";
+import {insertToFirestore, updateDataInFireStoreDocumentByFieldName} from "../../firebase/helpers";
+import {auth} from "../../firebase/index";
 export const getUsers = (CB) => async (dispatch) => {
 
 };
@@ -10,17 +11,34 @@ export const setNewUserData = (data)=> dispatch =>{
 };
 
 export const insertDetails = (payload,CB) => dispatch => {
-	dispatch({type:Users.INSERT_USER_DETAILS,payload: {loading:true}})
+	dispatch({type:Users.INSERT_USER_DETAILS,payload: {loading:true}});
 	insertToFirestore(
 		payload,
 		"users",
 		async () => {
-			dispatch({type:Users.INSERT_USER_DETAILS,payload: {loading:false}})
+			dispatch({type:Users.INSERT_USER_DETAILS,payload: {loading:false}});
 			CB && CB();
 		}
 	).catch(err=> {
 		console.log(err);
 		dispatch({type:Users.INSERT_USER_DETAILS,payload: {loading:false}});
+	});
+
+};
+export const updateSubjects = (payload,CB) => dispatch => {
+	dispatch({type:Users.UPDATING_SUBJECTS,payload: {updatingSubjectLoading:true}});
+	updateDataInFireStoreDocumentByFieldName("email",
+		auth.currentUser.email,
+		"users",
+		payload,
+		async () => {
+			dispatch({type:Users.UPDATE_SUBJECTS,payload: payload});
+			dispatch({type:Users.UPDATING_SUBJECTS,payload: {updatingSubjectLoading:false}});
+			CB && CB();
+		}
+	).catch(err=> {
+		console.log(err);
+		dispatch({type:Users.UPDATING_SUBJECTS,payload: {updatingSubjectLoading:false}});
 	});
 
 };

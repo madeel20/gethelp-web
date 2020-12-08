@@ -15,7 +15,6 @@ import {loadSubjects} from "../../Store/Actions/SubjectActions";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 const ThirdStep = ({onNext})=>{
 	const dispatch = useDispatch();
-	const [fullName,setFullName] = useState("");
 	const [subjects,setSubjects] = useState([]);
 	const [error,setError] = useState(false);
 	const [open,setOpen] = useState(false);

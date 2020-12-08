@@ -62,3 +62,24 @@ export const insertToFirestore = async (data, collection, CB) => {
 			console.log(err);
 		});
 };
+export const  updateDataInFireStoreDocumentByFieldName = async (fieldName,fieldValue, collection,data, CB) => {
+	await firestore
+		.collection(collection)
+		.where(fieldName,"==",fieldValue).get().then(res=>{
+			if(res.docs.length>0) {
+				firestore.collection(collection).doc(res.docs[0].id).update(data).then((res)=>{
+					CB && CB();
+					return res ;
+				});
+			}
+			else{
+				CB && CB();
+				return null;
+			}
+		})
+		.catch((err) => {
+			CB && CB();
+			console.log(err);
+			return err;
+		});
+};
