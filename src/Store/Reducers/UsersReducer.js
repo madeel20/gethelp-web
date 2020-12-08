@@ -10,6 +10,10 @@ export default (state = initialState, action = {}) => {
 		return {
 			...state,...action.payload
 		};
+	case Users.INSERT_USER_DETAILS:
+		return {
+			...state,...action.payload
+		};
 	case Users.SET_NEW_USER_DATA:
 		return {
 			...state, newData : {...state.newData , ...action.payload}

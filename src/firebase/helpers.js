@@ -48,8 +48,8 @@ export const getCollection = async (collection) => {
 			return [];
 		});
 };
-export const insertToFirestore = (data, collection, CB) => {
-	firestore
+export const insertToFirestore = async (data, collection, CB) => {
+	await firestore
 		.collection(collection)
 		.add(data)
 		.then((res) => {

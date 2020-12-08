@@ -14,7 +14,7 @@ const NewUserStack = ({onFinish})=>{
 		case 0:
 			return  <FirstStep onNext={onNext} />;
 		case 1:
-			return <SecondStep onNext={onNext} />;
+			return <SecondStep onFinish={onFinish} onNext={onNext} />;
 		case 2:
 			return <ThirdStep onNext={onNext} />;
 		case 3:

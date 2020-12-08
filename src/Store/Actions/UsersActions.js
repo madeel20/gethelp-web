@@ -10,12 +10,17 @@ export const setNewUserData = (data)=> dispatch =>{
 };
 
 export const insertDetails = (payload,CB) => dispatch => {
+	dispatch({type:Users.INSERT_USER_DETAILS,payload: {loading:true}})
 	insertToFirestore(
 		payload,
 		"users",
 		async () => {
+			dispatch({type:Users.INSERT_USER_DETAILS,payload: {loading:false}})
 			CB && CB();
 		}
-	);
+	).catch(err=> {
+		console.log(err);
+		dispatch({type:Users.INSERT_USER_DETAILS,payload: {loading:false}});
+	});
 
 };

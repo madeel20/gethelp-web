@@ -55,11 +55,14 @@ function App() {
 			<NewUserStack onFinish={()=>setIsNewUser(false)}/>
 		</Provider>;
 	}
-	return (
-		<Provider store={store}>
-			<HelperUserStack/>
-		</Provider>
-	);
+	if(user && !isNewUser) {
+		return (
+			<Provider store={store}>
+				<HelperUserStack/>
+			</Provider>
+		);
+	}
+	return null;
 
 }
 
