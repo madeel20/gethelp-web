@@ -17,7 +17,8 @@ import Alert from "@material-ui/lab/Alert/Alert";
 
 const EditSubjects = ()=>{
 	const dispatch = useDispatch();
-	const [error,setError] = useState(false);
+	const [error,setError] = useState("");
+	const [msg,setMsg] = useState("");
 	const [open,setOpen] = useState(false);
 	useEffect(()=>{
 		dispatch(loadSubjects());
@@ -28,25 +29,29 @@ const EditSubjects = ()=>{
 			User
 		};
 	});
-	console.log(stateProps.User.data.subjects);
 	const {data,loading} = stateProps.Subjects;
 	const {updatingSubjectLoading} = stateProps.User;
 	const [subjects,setSubjects] = useState(stateProps.User.data.subjects || []);
 	const handleSubmit = (e)=>{
 		e.preventDefault();
 		if(subjects.length===0){
+			setMsg("");
 			setError("Please select at least one subject.");
 			setOpen(true);
 			return;
 		}
-		dispatch(updateSubjects({subjects}));
+		dispatch(updateSubjects({subjects},()=>{
+			setError("");
+			setMsg("Subjects Updated!");
+			setOpen(true);
+		}));
 	};
 	const handleChange =(e)=>{
-		if(e.target.checked){
-			setSubjects(prevState=> [...prevState,{id:e.target.value,name:e.target.name}]);
-		}
-		else {
-			setSubjects(prevState=>prevState.filter(it=>it.id !== e.target.value ));
+		const { name, value } = e.target;
+		if (e.target.checked) {
+			setSubjects(prevState => [...prevState, {id: value, name: name}]);
+		} else {
+			setSubjects(prevState => prevState.filter(it => it.id !== value));
 		}
 	};
 	const renderSubjects =()=>{
@@ -85,7 +90,10 @@ const EditSubjects = ()=>{
 					</>
 				}
 				<Snackbar open={open} autoHideDuration={3000} onClose={()=>setOpen(false)}>
-					<Alert elevation={6} variant="filled" severity="warning">{error}</Alert>
+					<>
+						{error !=="" && <Alert elevation={6} variant="filled" severity="warning">{error}</Alert>}
+						{msg !=="" && <Alert elevation={6} variant="filled" severity="success">{msg}</Alert>}
+					</>
 				</Snackbar>
 			</Paper>
 		</div>
