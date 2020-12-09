@@ -9,7 +9,7 @@ export const HelperUserRoutes =[
 	{route:"/", component: Home,exact:true,title:"Home"},
 	{route:"/edit-subjects",component:EditSubjects,title:"Edit Subjects"},
 	{route:"/helper-records",component:HelperRecords,title:"Helper Records"},
-	{route:"edit-meeting-link",component:EditMeetingLink,title: "Edit Meetling Link"}
+	{route:"/edit-meeting-link",component:EditMeetingLink,title: "Edit Meetling Link"}
 ];
 
 export const NormalUserRoutes = [

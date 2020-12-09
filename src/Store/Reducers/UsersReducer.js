@@ -2,6 +2,7 @@ import Users from "../Constants/Users";
 const initialState = {
 	loading:false,
 	updatingSubjectLoading:false,
+	meetingLoading:false,
 	data:{},
 	newData:{},
 };
@@ -13,6 +14,7 @@ export default (state = initialState, action = {}) => {
 		};
 	case Users.INSERT_USER_DETAILS:
 	case Users.UPDATING_SUBJECTS:
+	case Users.UPDATING_MEETING_LINK:
 		return {
 			...state,...action.payload
 		};
@@ -24,6 +26,8 @@ export default (state = initialState, action = {}) => {
 		return {
 			...state, data: {...state.data,subjects:action.payload.subjects}
 		};
+	case Users.UPDATE_MEETING_LINK:
+		return {...state,data: {...state.data,meetLink:action.payload}};
 	default:
 		return state;
 	}

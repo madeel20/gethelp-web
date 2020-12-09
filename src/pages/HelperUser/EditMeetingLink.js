@@ -5,71 +5,64 @@ import FormLabel from "@material-ui/core/FormLabel";
 import FormGroup from "@material-ui/core/FormGroup/FormGroup";
 import Button from "@material-ui/core/Button";
 import ArrowForwardIcon from "@material-ui/core/SvgIcon/SvgIcon";
-import {MappedElement} from "../../utils/helpers";
-import FormControlLabel from "@material-ui/core/FormControlLabel/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox/Checkbox";
-import {loadSubjects} from "../../Store/Actions/SubjectActions";
 import {useDispatch, useSelector} from "react-redux";
-import { updateSubjects} from "../../Store/Actions/UsersActions";
+import {updateMeetingLink} from "../../Store/Actions/UsersActions";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 import Alert from "@material-ui/lab/Alert/Alert";
+import TextField from "@material-ui/core/TextField/TextField";
 
 const EditMeetingLink = ()=>{
 	const dispatch = useDispatch();
 	const [error,setError] = useState(false);
 	const [open,setOpen] = useState(false);
-	useEffect(()=>{
-		dispatch(loadSubjects());
-	},[]);
-	const stateProps = useSelector(({Subjects,User})=>{
+	const [msg,setMsg] = useState("");
+	const stateProps = useSelector(({User})=>{
 		return {
-			Subjects,
-			User
+			...User
 		};
 	});
-	console.log(stateProps.User.data.subjects);
-	const {data,loading} = stateProps.Subjects;
-	const {updatingSubjectLoading} = stateProps.User;
-	const [subjects,setSubjects] = useState(stateProps.User.data.subjects || []);
+	const {data,meetingLoading} = stateProps;
+	const [meetLink,setMeetLink] = useState(data.meetLink || "");
 	const handleSubmit = (e)=>{
 		e.preventDefault();
-		if(subjects.length===0){
-			setError("Please select at least one subject.");
+		if(meetLink ===""){
+			setMsg("");
+			setError("Meeting link cannot be empty!");
 			setOpen(true);
 			return;
 		}
-		dispatch(updateSubjects({subjects}));
-	};
-	const handleChange =(e)=>{
-		if(e.target.checked){
-			setSubjects(prevState=> [...prevState,{id:e.target.value,name:e.target.name}]);
-		}
-		else {
-			setSubjects(prevState=>prevState.filter(it=>it.id !== e.target.value ));
-		}
-	};
-	const renderSubjects =()=>{
-		return <MappedElement data={data} renderElement={ (obj,index)=>{
-			return <FormControlLabel key={index}
-									 control={<Checkbox onChange={handleChange} checked={subjects && subjects.find(it=>it.id === obj.id)?true:false} value={obj.id} name={obj.name} />}
-									 label={String(obj.name).toUpperCase()}
-			/>;}
-		}/>;
+		dispatch(updateMeetingLink({meetLink},()=>{
+			setError("");
+			setMsg("Meeting link updated!");
+			setOpen(true);
+		}));
 	};
 	return (
 		<div className={"container"}>
 			<Paper className={"p-4"}>
-				{loading || updatingSubjectLoading?
+				{meetingLoading ?
 					<CircularProgress  size={30}/>
 					:
 					<>
-						<h1> Edit Subjects </h1>
+						<h1 className={"mb-4"}> Edit Meeting Link </h1>
 						<form noValidate autoComplete="off" onSubmit={handleSubmit}>
-							<FormControl component="fieldset">
-								<FormLabel component="legend">Select the subjects you’d like to help in.</FormLabel>
+							<FormControl className={"mb-4"}  component="fieldset">
+								<FormLabel component="legend">Your Google Meet Link.</FormLabel>
 								<FormGroup>
-									{renderSubjects()}
+									<TextField
+										fullWidth
+										error={false}
+										name={"link"}
+										label="Link"
+										defaultValue={meetLink}
+										className={"mb-2"}
+										onChange={e => setMeetLink(e.target.value)}
+										variant="outlined"
+										required
+										value={meetLink}
+										error={error}
+									/>
 								</FormGroup>
 							</FormControl>
 							<Button
@@ -85,7 +78,10 @@ const EditMeetingLink = ()=>{
 					</>
 				}
 				<Snackbar open={open} autoHideDuration={3000} onClose={()=>setOpen(false)}>
-					<Alert elevation={6} variant="filled" severity="warning">{error}</Alert>
+					<>
+						{error !=="" && <Alert elevation={6} variant="filled" severity="warning">{error}</Alert>}
+						{msg !=="" && <Alert elevation={6} variant="filled" severity="success">{msg}</Alert>}
+					</>
 				</Snackbar>
 			</Paper>
 		</div>

@@ -42,3 +42,21 @@ export const updateSubjects = (payload,CB) => dispatch => {
 	});
 
 };
+export const updateMeetingLink = (payload,CB) => dispatch => {
+	dispatch({type:Users.UPDATING_MEETING_LINK,payload: {meetingLoading:true}});
+	updateDataInFireStoreDocumentByFieldName("email",
+		auth.currentUser.email,
+		"users",
+		payload
+		,
+		async () => {
+			dispatch({type:Users.UPDATE_MEETING_LINK,payload: payload.meetLink });
+			dispatch({type:Users.UPDATING_MEETING_LINK,payload: {meetingLoading:false}});
+			CB && CB();
+		}
+	).catch(err=> {
+		console.log(err);
+		dispatch({type:Users.UPDATING_MEETING_LINK,payload: {meetingLoading:false}});
+	});
+
+};

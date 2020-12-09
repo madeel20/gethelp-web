@@ -14,7 +14,6 @@ import { updateSubjects} from "../../Store/Actions/UsersActions";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 import Alert from "@material-ui/lab/Alert/Alert";
-
 const EditSubjects = ()=>{
 	const dispatch = useDispatch();
 	const [error,setError] = useState("");
