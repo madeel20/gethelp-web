@@ -34,7 +34,6 @@ const ThirdStep = ({onNext})=>{
 			setOpen(true);
 			return;
 		}
-		console.log(subjects)
 		dispatch(setNewUserData({subjects}));
 		onNext();
 	};

@@ -21,5 +21,4 @@ const GetHelp = ()=> {
 		return <RequestHelp onRequest={()=>{setHelpRequestAssigned(true); }} />;
 	}
 };
-
 export default GetHelp;

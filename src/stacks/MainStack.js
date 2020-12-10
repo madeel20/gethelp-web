@@ -1,14 +1,25 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useRef} from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PersistentDrawerLeft from "../components/Drawer";
 import {useDispatch, useSelector} from "react-redux";
-import {helpGigStatus, UserRoles} from "../utils/Constants";
+import { UserRoles} from "../utils/Constants";
 import {HelperUserRoutes, NormalUserRoutes} from "../pages/Routes";
 import { MappedElement} from "../utils/helpers";
 import {auth, database} from "../firebase";
-import {getHelpGig} from "../Store/Actions/UsersActions";
-
 const HelperUserStack = ()=>{
+	const intervaObj = useRef();
+	useEffect(()=>{
+		intervaObj.current = setInterval(()=>updateLastActive(),
+			10000);
+		return ()=> {
+			clearInterval(intervaObj.current);
+		};
+	},[]);
+	const updateLastActive = ()=>{
+		database
+			.ref("helpers").child(auth.currentUser.uid)
+			.update({lastActive: new Date().toUTCString()})
+	}
 	return (
 		<>
 			<PersistentDrawerLeft routes={HelperUserRoutes}/>

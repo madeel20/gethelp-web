@@ -12,6 +12,6 @@ export const helpGigStatus = {
 };
 
 export const helperStatus = {
-	AVAILABLE:"AVAILABLE",
-	NOT_AVAILABLE: "NOT_AVAILABLE",
+	AVAILABLE:true,
+	NOT_AVAILABLE: false,
 };

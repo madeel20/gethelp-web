@@ -1,7 +1,8 @@
 
 import Users from "../Constants/Users";
 import {insertToFirestore, updateDataInFireStoreDocumentByFieldName} from "../../firebase/helpers";
-import {auth} from "../../firebase/index";
+import {auth, database} from "../../firebase/index";
+import {GetHelp} from "../Constants/GetHelp";
 export const getHelpGig = (payload) => async (dispatch) => {
 	dispatch({type: Users.GET_HELP_GIG_DATA, payload: payload });
 };
@@ -57,4 +58,18 @@ export const updateMeetingLink = (payload,CB) => dispatch => {
 		dispatch({type:Users.UPDATING_MEETING_LINK,payload: {meetingLoading:false}});
 	});
 
+};
+
+export const updateHelperUserStatus = (payload,CB) => dispatch =>{
+	database
+		.ref("helpers").child(auth.currentUser.uid)
+		.update(payload)
+		.then((res) => {
+			dispatch({type:Users.UPDATE_HELPER_USER_STATUS,payload: payload.status });
+			CB && CB();
+		})
+		.catch((err) => {
+			console.log(err);
+			CB && CB(err);
+		});
 };

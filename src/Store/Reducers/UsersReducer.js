@@ -6,6 +6,7 @@ const initialState = {
 	data:{},
 	helpGig:{},
 	newData:{},
+	activeStatus:false,
 };
 export default (state = initialState, action = {}) => {
 	switch (action.type) {
@@ -33,6 +34,8 @@ export default (state = initialState, action = {}) => {
 		};
 	case Users.UPDATE_MEETING_LINK:
 		return {...state,data: {...state.data,meetLink:action.payload}};
+		case Users.UPDATE_HELPER_USER_STATUS:
+			return {...state, activeStatus: action.payload}
 	default:
 		return state;
 	}
