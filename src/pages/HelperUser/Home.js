@@ -1,19 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import Paper from "@material-ui/core/Paper";
 import {useDispatch, useSelector} from "react-redux";
 import NearMeIcon from "@material-ui/icons/NearMe";
 import Switch from "@material-ui/core/Switch";
 import {Link} from "react-router-dom";
-import {auth, database, firestore} from "../../firebase";
+import {auth, database} from "../../firebase";
 import {getHelperUserData, updateHelperUserStatus} from "../../Store/Actions/UsersActions";
-import Notifier from "react-desktop-notification";
 import {helperStatus} from "../../utils/Constants";
-import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
-import Button from "@material-ui/core/Button";
+import Request from "./Request";
 const Home = ()=>{
-	const [currentRequest,setCurrentRequest] = useState({});
-	const [requestUser,setRequestUser] = useState({});
-	const [loading,setLoading] = useState(false);
 	const dispatch = useDispatch();
 	const stateProps = useSelector(({User})=>{
 		return {...User};
@@ -24,44 +19,15 @@ const Home = ()=>{
 			database
 				.ref("helpers").child(auth.currentUser.uid).on("value", (snapshot) => {
 					dispatch(updateHelperUserStatus({status: Object.entries(snapshot.val()).length>0?snapshot.val().status : helperStatus.AVAILABLE}));
-					 dispatch(getHelperUserData(Object.entries(snapshot.val()).length>2?snapshot.val():{assignedUser:""}));
+					dispatch(getHelperUserData(Object.entries(snapshot.val()).length>2?snapshot.val():{assignedUser:""}));
 				});
 		}
 		catch (e) {
 			console.log(e);
 		}
 	},[]);
-	useEffect(()=>{
-		if(helperUserData.assignedUser!=="") {
-			setLoading(true);
-			database.ref("helpGigs").child(helperUserData.assignedUser).once("value").then(res => {
-				setCurrentRequest(res.val());
-				firestore.collection("users").where("id","==",helperUserData.assignedUser).get().then(res=>{
-					setRequestUser(res.docs[0].data());
-					Notifier.start(res.docs[0].data().fullName +" needs your help!");
-					setLoading(false);
-				});
-			}
-			);
-		}
-
-	},[helperUserData.assignedUser]);
 	if(helperUserData.assignedUser!==""){
-		return <div className={"container"} >
-			<h1>Hi, {data.fullName}</h1>
-			<Paper className={"d-flex flex-direction-row p-4 p-4"}>
-				{loading ?
-					<CircularProgress size={30}/>
-					:
-					<div className={"d-flex flex-column align-items-center"}>
-						<h2>{requestUser.fullName} needs your help in {currentRequest.subjectName} of {currentRequest.grade} grade.</h2>
-						<div className={"mt-4 mb-4"}>
-							<Button color={"primary"} >Accept</Button><Button color={"secondary"}>Decline</Button>
-						</div>
-					</div>
-				}
-			</Paper>
-		</div>;
+		return <Request/>;
 	}
 	return (
 		<div className={"container"} >
