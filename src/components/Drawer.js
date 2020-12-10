@@ -99,7 +99,7 @@ export default function PersistentDrawerLeft({routes}) {
 			});
 	},[]);
 	useEffect(()=> {
-		if(helpGig.status && helpGig.status === helpGigStatus.ACTIVE){
+		if(helpGig && helpGig.status === helpGigStatus.ACTIVE){
 
 			history.push(data.role === UserRoles.NORMAL_USER?"/":"/get-help");
 		}

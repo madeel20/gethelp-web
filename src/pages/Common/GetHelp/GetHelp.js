@@ -10,7 +10,7 @@ const GetHelp = ()=> {
 	});
 	const {helpGig} = stateProps;
 	useEffect(()=>{
-		if(helpGig.status && helpGig.status === helpGigStatus.ACTIVE){
+		if(helpGig && helpGig.status === helpGigStatus.ACTIVE){
 			setHelpRequestAssigned(true)
 		}
 	},[helpGig]);
