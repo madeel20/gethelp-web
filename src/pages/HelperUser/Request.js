@@ -33,7 +33,12 @@ const Request = ()=>{
 
 	},[helperUserData.assignedUser]);
 	const handleCancel =()=>{
-
+		setLoading(true);
+		dispatch(updateHelpGig(helperUserData.assignedUser,{ status: helpGigStatus.ACTIVE},()=> {
+			dispatch(setAssignedUserOfHelperUser({assignedUser: ""}, () => {
+				setLoading(false);
+			}));
+		}));
 	};
 	const handleAccept =()=>{
 		setLoading(true);
@@ -55,7 +60,8 @@ const Request = ()=>{
 					<div className={"d-flex flex-column align-items-center"}>
 						<h2>{requestUser.fullName} needs your help in {currentRequest.subjectName} of {currentRequest.grade} grade.</h2>
 						<div className={"mt-4 mb-4"}>
-							<Button color={"primary"} onClick={handleAccept} >Accept</Button><Button color={"secondary"}>Decline</Button>
+							<Button color={"primary"} onClick={handleAccept} >Accept</Button>
+                            <Button color={"secondary"} onClick={handleCancel}>Decline</Button>
 						</div>
 					</div>
 				}

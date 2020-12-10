@@ -9,49 +9,46 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import {updateHelpStatus} from "../../../Store/Actions/HelpActions";
 import {helperStatus, helpGigStatus} from "../../../utils/Constants";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
-import {auth, database} from "../../../firebase";
+import {auth, database, firestore} from "../../../firebase";
 import {getHelperUserData, updateHelperUserStatus} from "../../../Store/Actions/UsersActions";
+import Notifier from "react-desktop-notification";
 
-const WaitingForHelp =({onCancel})=>{
+const HelpAccepted =({helperId,onCancel})=>{
 	const dispatch = useDispatch();
-	const [error,setError] = useState("");
-	const [msg,setMsg] = useState("");
-	const [open,setOpen] = useState(false);
+	const [helperUser,setHelperUser] = useState({});
+	const [loading,setLoading] = useState(false);
 	useEffect(()=>{
 		dispatch(loadSubjects());
 	},[]);
-	const stateProps = useSelector(({GetHelp})=>{
-		return {
-			...GetHelp
-		};
-	});
-	const {loading} = stateProps;
-	const handleCancel = ()=>{
+	useEffect(()=>{
+		setLoading(true);
+		firestore.collection("users").where("id","==",helperId).get().then(res=>{
+			if(res.docs.length>0){
+				setHelperUser(res.docs[0].data());
+				setLoading(false);
+			}
+		});
+	},[]);
+	const handleDone = ()=>{
 		dispatch(updateHelpStatus({status: helpGigStatus.CANCELLED},()=>{
 			onCancel();
 		}));
 	};
-
+    console.log(helperUser.meetLink)
 	return (
 		<div className={"container "} style={{height:"400px"}}>
 			<Paper className={"p-4 text-center"}>
-				<h1> Searching For Helpers…</h1>
-				<p>	Please wait </p>
-				<LinearProgress className={"mt-4 mb-4"} />
 				{loading ?
 					<CircularProgress size={30}/>
-					:
-					<Button color={"secondary"} className={"mt-4"} onClick={handleCancel}> Cancel </Button>
-				}
-				<Snackbar open={open} autoHideDuration={3000} onClose={()=>setOpen(false)}>
-					<>
-						{error !=="" && <Alert elevation={6} variant="filled" severity="warning">{error}</Alert>}
-						{msg !=="" && <Alert elevation={6} variant="filled" severity="success">{msg}</Alert>}
+					:<>
+						<h2> Your Request is Accepted By {helperUser.fullName} </h2>
+						<a href={helperUser.meetLink} target={"_blank"}> Go To Meeting </a>
+						<Button color={"secondary"} onClick={handleDone}> Done </Button>
 					</>
-				</Snackbar>
+				}
 			</Paper>
 		</div>
 	);
 };
 
-export default WaitingForHelp;
+export default HelpAccepted;

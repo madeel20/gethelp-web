@@ -43,11 +43,11 @@ const Home = ()=>{
 						inputProps={{ "aria-label": "primary checkbox" }}
 					/>
 				</Paper>
-				<Link to={"/get-help"}><Paper elevation={0} className={"m-4 p-4 d-flex flex-column align-items-center help-container"} >
-					<p>	I need help! </p>
-					<NearMeIcon fontSize="large" />
-				</Paper>
-				</Link>
+				{/*<Link to={"/get-help"}><Paper elevation={0} className={"m-4 p-4 d-flex flex-column align-items-center help-container"} >*/}
+				{/*	<p>	I need help! </p>*/}
+				{/*	<NearMeIcon fontSize="large" />*/}
+				{/*</Paper>*/}
+				{/*</Link>*/}
 			</div>
 			<p>If you switch toggle to ‘yes,’ keep this tab open; </p><p>You can focus on other tabs. You’ll receive a notification if someone needs help.
 			</p>

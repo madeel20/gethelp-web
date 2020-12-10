@@ -59,6 +59,7 @@ const FourthStep = ({onNext,onFinish})=>{
 							value={meetLink}
 							error={error}
 						/>
+						<span className={'link-hint'}>Format: https:// your meet link</span>
 						<Button
 							fullWidth
 							type={"submit"}

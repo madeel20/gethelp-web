@@ -64,7 +64,9 @@ const EditMeetingLink = ()=>{
 										error={error}
 									/>
 								</FormGroup>
+								<span className={'link-hint'}>Format: https:// your meet link</span>
 							</FormControl>
+
 							<Button
 								fullWidth
 								type={"submit"}
