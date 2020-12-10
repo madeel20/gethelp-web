@@ -1,14 +1,16 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PersistentDrawerLeft from "../components/Drawer";
-import {useSelector} from "react-redux";
-import HelperUser from "../pages/HelperUser/HelperUser";
-import {UserRoles} from "../utils/Constants";
+import {useDispatch, useSelector} from "react-redux";
+import {helpGigStatus, UserRoles} from "../utils/Constants";
 import {HelperUserRoutes, NormalUserRoutes} from "../pages/Routes";
-import {MappedElement} from "../utils/helpers";
+import { MappedElement} from "../utils/helpers";
+import {auth, database} from "../firebase";
+import {getHelpGig} from "../Store/Actions/UsersActions";
+
 const HelperUserStack = ()=>{
 	return (
-		<Router>
+		<>
 			<PersistentDrawerLeft routes={HelperUserRoutes}/>
 			<div className="layout">
 				<Switch>
@@ -18,12 +20,12 @@ const HelperUserStack = ()=>{
 					}} />
 				</Switch>
 			</div>
-		</Router>
+		</>
 	);
 };
 const UserStack = ()=>{
 	return (
-		<Router>
+		<>
 			<PersistentDrawerLeft routes={NormalUserRoutes}/>
 			<div className="layout">
 				<Switch>
@@ -33,7 +35,7 @@ const UserStack = ()=>{
 					}} />
 				</Switch>
 			</div>
-		</Router>
+		</>
 	);
 };
 const MainStack = ()=>{
@@ -41,8 +43,10 @@ const MainStack = ()=>{
 		return {...User};
 	});
 	const { data } = stateProps;
+
+
 	return (
-		<>{data.role === UserRoles.NORMAL_USER? <UserStack/>:<HelperUserStack/>}</>
+		<Router>{data.role === UserRoles.NORMAL_USER? <UserStack/>:<HelperUserStack/>}</Router>
 	);
 };
 

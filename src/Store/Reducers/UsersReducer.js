@@ -4,14 +4,19 @@ const initialState = {
 	updatingSubjectLoading:false,
 	meetingLoading:false,
 	data:{},
+	helpGig:{},
 	newData:{},
 };
 export default (state = initialState, action = {}) => {
 	switch (action.type) {
-	case Users.GET_USER_DATA:
-		return {
-			...state,data:action.payload
-		};
+		case Users.GET_USER_DATA:
+			return {
+				...state,data:action.payload
+			};
+		case Users.GET_HELP_GIG_DATA:
+			return {
+				...state,helpGig:action.payload
+			};
 	case Users.INSERT_USER_DETAILS:
 	case Users.UPDATING_SUBJECTS:
 	case Users.UPDATING_MEETING_LINK:

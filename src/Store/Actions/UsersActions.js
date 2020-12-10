@@ -2,14 +2,12 @@
 import Users from "../Constants/Users";
 import {insertToFirestore, updateDataInFireStoreDocumentByFieldName} from "../../firebase/helpers";
 import {auth} from "../../firebase/index";
-export const getUsers = (CB) => async (dispatch) => {
-
+export const getHelpGig = (payload) => async (dispatch) => {
+	dispatch({type: Users.GET_HELP_GIG_DATA, payload: payload });
 };
-
 export const setNewUserData = (data)=> dispatch =>{
 	dispatch({type: Users.SET_NEW_USER_DATA, payload: data});
 };
-
 export const insertDetails = (payload,CB) => dispatch => {
 	dispatch({type:Users.INSERT_USER_DETAILS,payload: {loading:true}});
 	insertToFirestore(

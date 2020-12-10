@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -16,12 +16,14 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
+import { useHistory } from "react-router-dom";
 import {logOut} from "../firebase/helpers";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {MappedElement} from "../utils/helpers";
 import {Link} from "react-router-dom";
+import {helpGigStatus, UserRoles} from "../utils/Constants";
+import {auth, database} from "../firebase";
+import {getHelpGig} from "../Store/Actions/UsersActions";
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -83,18 +85,31 @@ const useStyles = makeStyles((theme) => ({
 export default function PersistentDrawerLeft({routes}) {
 	const classes = useStyles();
 	const theme = useTheme();
+	const dispatch = useDispatch();
+	const history = useHistory();
 	const [open, setOpen] = React.useState(true);
 	const stateProps = useSelector(({User})=>{
 		return {...User};
 	});
-	const { data } = stateProps;
+	const { data , helpGig} = stateProps;
+	useEffect(()=>{
+		database.ref("helpGigs").child(auth.currentUser.uid)
+			.on("value", (snapshot) => {
+				dispatch(getHelpGig(snapshot.val()));
+			});
+	},[]);
+	useEffect(()=> {
+		if(helpGig.status && helpGig.status === helpGigStatus.ACTIVE){
+
+			history.push(data.role === UserRoles.NORMAL_USER?"/":"/get-help");
+		}
+	},[helpGig]);
 	const handleDrawerOpen = () => {
 		setOpen(true);
 	};
 	const handleDrawerClose = () => {
 		setOpen(false);
 	};
-
 	return (
 		<div className={classes.root}>
 			<CssBaseline />

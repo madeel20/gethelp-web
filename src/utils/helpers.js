@@ -11,3 +11,10 @@ export const convertToArray = (data) => {
 	});
 	return array;
 };
+export const convertDBSnapshoptToArrayOfObject = (snapshot) => {
+	let arr = [];
+	Object.entries(snapshot.val()).forEach((it) => {
+		arr.push({id: it[0], ...it[1]});
+	});
+	return arr;
+};
