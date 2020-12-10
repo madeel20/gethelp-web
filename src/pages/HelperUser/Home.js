@@ -1,26 +1,48 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import Paper from "@material-ui/core/Paper";
 import {useDispatch, useSelector} from "react-redux";
 import NearMeIcon from "@material-ui/icons/NearMe";
 import Switch from "@material-ui/core/Switch";
 import {Link} from "react-router-dom";
-import {auth, database} from "../../firebase";
-import {getHelpGig, updateHelperUserStatus} from "../../Store/Actions/UsersActions";
-import {GetHelp} from "../../Store/Constants/GetHelp";
-import {helperStatus} from "../../utils/Constants";
+import {auth, database, firestore} from "../../firebase";
+import {getHelperUserData, updateHelperUserStatus} from "../../Store/Actions/UsersActions";
 const Home = ()=>{
+	const [currentRequest,setCurrentRequest] = useState({});
+	const [requestUser,setRequestUser] = useState({});
 	const dispatch = useDispatch();
 	const stateProps = useSelector(({User})=>{
 		return {...User};
 	});
-	const { data, activeStatus } = stateProps;
+	const { data, activeStatus,helperUserData } = stateProps;
 	useEffect(()=>{
 		database
-			.ref("helpers").child(auth.currentUser.uid).child("status").on("value", (snapshot) => {
-				dispatch(updateHelperUserStatus({status:snapshot.val()}))
+			.ref("helpers").child(auth.currentUser.uid).on("value", (snapshot) => {
+				dispatch(updateHelperUserStatus({status:snapshot.val().status}));
+				dispatch(getHelperUserData(snapshot.val()));
 			});
 	},[]);
+	useEffect(()=>{
+		if(helperUserData.assignedUser!=="") {
+			database.ref("helpGigs").child(helperUserData.assignedUser).once("value").then(res => {
+				setCurrentRequest(res.val());
+			}
+			);
+			firestore.collection("users").where("id","==",helperUserData.assignedUser).get().then(res=>{
+				setRequestUser(res.docs[0].data());
+			});
+		}
 
+	},[helperUserData.assignedUser]);
+	if(helperUserData.assignedUser!==""){
+		return <div className={"container"} >
+			<h1>{data.fullName}</h1>
+			<Paper className={"d-flex flex-direction-row"}>
+				<h2> {currentRequest.subjectName}</h2>
+				{Object.entries(currentRequest).length>0 &&
+				<h2> {currentRequest.grade}</h2>
+				}
+			</Paper></div>;
+	}
 	return (
 		<div className={"container"} >
 			<h1>{data.fullName}</h1>

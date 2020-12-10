@@ -1,8 +1,7 @@
 
 import Users from "../Constants/Users";
 import {insertToFirestore, updateDataInFireStoreDocumentByFieldName} from "../../firebase/helpers";
-import {auth, database} from "../../firebase/index";
-import {GetHelp} from "../Constants/GetHelp";
+import {auth,database} from "../../firebase/index";
 export const getHelpGig = (payload) => async (dispatch) => {
 	dispatch({type: Users.GET_HELP_GIG_DATA, payload: payload });
 };
@@ -59,7 +58,6 @@ export const updateMeetingLink = (payload,CB) => dispatch => {
 	});
 
 };
-
 export const updateHelperUserStatus = (payload,CB) => dispatch =>{
 	database
 		.ref("helpers").child(auth.currentUser.uid)
@@ -73,3 +71,7 @@ export const updateHelperUserStatus = (payload,CB) => dispatch =>{
 			CB && CB(err);
 		});
 };
+export const getHelperUserData = (payload,CB) => dispatch =>{
+	dispatch({type:Users.GET_HELPER_USER_DATA,payload: payload });
+};
+
