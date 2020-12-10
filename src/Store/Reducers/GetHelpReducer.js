@@ -7,6 +7,7 @@ const initialState = {
 export default (state = initialState, action = {}) => {
 	switch (action.type) {
 	case  GetHelp.INSERTING_HELP :
+		case GetHelp.CANCEL_HELP:
 		return {
 			...state,...action.payload
 		};

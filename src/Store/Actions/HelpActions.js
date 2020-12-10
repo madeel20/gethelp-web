@@ -20,3 +20,18 @@ export const insertHelp = (payload,CB) => dispatch => {
 		});
 
 };
+export const updateHelpStatus = (payload,CB) => dispatch => {
+	dispatch({type:GetHelp.CANCEL_HELP,payload: {loading:true}});
+	database
+		.ref("helpGigs").child(auth.currentUser.uid)
+		.update(payload)
+		.then((res) => {
+			dispatch({type:GetHelp.CANCEL_HELP,payload: {loading:false}});
+			CB && CB();
+		})
+		.catch((err) => {
+			console.log(err);
+			dispatch({type:GetHelp.CANCEL_HELP,payload: {loading:false}});
+			CB && CB();
+		});
+}

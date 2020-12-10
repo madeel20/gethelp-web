@@ -14,6 +14,7 @@ import Button from "@material-ui/core/Button";
 import ArrowForwardIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 import Alert from "@material-ui/lab/Alert/Alert";
+import {helpGigStatus} from "../../../utils/Constants";
 
 const RequestHelp =({onRequest})=>{
 	const dispatch = useDispatch();
@@ -40,6 +41,7 @@ const RequestHelp =({onRequest})=>{
 			return;
 		}
 		dispatch(insertHelp({
+			status: helpGigStatus.ACTIVE,
 			subjectId: subject,
 			subjectName: data.find(it=>it.id === subject).name,
 			dateTime: new Date().toUTCString(),
