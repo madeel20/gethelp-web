@@ -4,11 +4,18 @@ export const MappedElement = ({data, renderElement}) => {
 	}
 	return null;
 };
-export const convertToArray = (data) => {
+export const convertToArray = (data, bindAlsoDocumentId=true) => {
 	let array = [];
-	data.map((r) => {
-		array.push({...r.data(), id: r.id});
-	});
+	if(bindAlsoDocumentId) {
+		data.map((r) => {
+			array.push({...r.data(), id: r.id});
+		});
+	}
+	else {
+		data.map((r) => {
+			array.push({...r.data()});
+		});
+	}
 	return array;
 };
 export const convertDBSnapshoptToArrayOfObject = (snapshot) => {
