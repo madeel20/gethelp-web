@@ -3,6 +3,7 @@ import Paper from "@material-ui/core/Paper";
 import {useSelector} from "react-redux";
 import NearMeIcon from "@material-ui/icons/NearMe";
 import Switch from "@material-ui/core/Switch";
+import {Link} from "react-router-dom";
 const Home = ()=>{
 	const [isAvailable, setIsAvailable] = React.useState(true);
 	const stateProps = useSelector(({User})=>{
@@ -23,10 +24,11 @@ const Home = ()=>{
 						inputProps={{ "aria-label": "primary checkbox" }}
 					/>
 				</Paper>
-				<Paper elevation={0} className={"m-4 p-4 d-flex flex-column align-items-center help-container"} >
+				<Link to={"/get-help"}><Paper elevation={0} className={"m-4 p-4 d-flex flex-column align-items-center help-container"} >
 					<p>	I need help! </p>
 					<NearMeIcon fontSize="large" />
 				</Paper>
+				</Link>
 			</div>
 			<p>If you switch toggle to ‘yes,’ keep this tab open; </p><p>You can focus on other tabs. You’ll receive a notification if someone needs help.
 			</p>

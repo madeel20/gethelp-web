@@ -1,4 +1,4 @@
-import {auth,googleProvider,firestore} from "./index";
+import {auth,googleProvider,firestore,database} from "./index";
 import {convertToArray} from "../utils/helpers";
 import {store} from "../Store/index";
 import Users from "../Store/Constants/Users";
@@ -81,5 +81,19 @@ export const  updateDataInFireStoreDocumentByFieldName = async (fieldName,fieldV
 			CB && CB();
 			console.log(err);
 			return err;
+		});
+};
+
+// database helpers
+export const insertIntoDatabaseRef = async (ref, data, CB) => {
+	await database
+		.ref(ref).child()
+		.push(data)
+		.then((res) => {
+			CB && CB(res.key);
+		})
+		.catch((err) => {
+			console.log(err);
+			CB && CB();
 		});
 };

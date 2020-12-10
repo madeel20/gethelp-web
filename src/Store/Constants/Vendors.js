@@ -1,6 +1,0 @@
-const Vendors = {
-    GET_ALL_VENDORS:'GET_ALL_VENDORS',
-    APPROVE_VENDOR:'APPROVE_VENDOR',
-    GET_VENDOR_MENU:'GET_VENDOR_MENU'
-}
-export default Vendors;
