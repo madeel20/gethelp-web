@@ -4,7 +4,7 @@ import PersistentDrawerLeft from "../components/Drawer";
 import {useSelector} from "react-redux";
 import HelperUser from "../pages/HelperUser/HelperUser";
 import {UserRoles} from "../utils/Constants";
-import {HelperUserRoutes} from "../pages/Routes";
+import {HelperUserRoutes, NormalUserRoutes} from "../pages/Routes";
 import {MappedElement} from "../utils/helpers";
 const HelperUserStack = ()=>{
 	return (
@@ -24,12 +24,13 @@ const HelperUserStack = ()=>{
 const UserStack = ()=>{
 	return (
 		<Router>
-			<PersistentDrawerLeft/>
-			<div className="App">
+			<PersistentDrawerLeft routes={NormalUserRoutes}/>
+			<div className="layout">
 				<Switch>
-					<Route path="/">
-						<h1>normal user</h1>
-					</Route>
+					<MappedElement data={NormalUserRoutes} renderElement={(obj, index )=>{
+						return	<Route key={obj.route} path={obj.route} component={obj.component} exact={obj.exact}>
+						</Route>;
+					}} />
 				</Switch>
 			</div>
 		</Router>
