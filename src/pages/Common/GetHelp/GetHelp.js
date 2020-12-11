@@ -2,10 +2,11 @@ import React, {useEffect, useState} from "react";
 import WaitingForHelp from "./WaitingForHelp";
 import RequestHelp from "./RequestHelp";
 import {useDispatch, useSelector} from "react-redux";
-import { helpGigStatus} from "../../../utils/Constants";
+import {helpGigStatus, websiteLink} from "../../../utils/Constants";
 import {auth, database} from "../../../firebase";
 import {getHelpGig} from "../../../Store/Actions/UsersActions";
 import HelpAccepted from "./HelpAccepted";
+import Notifier from "react-desktop-notification";
 const GetHelp = ()=> {
 	const dispatch = useDispatch();
 	const [isHelpRequestAssigned,setHelpRequestAssigned] = useState(false);
@@ -17,6 +18,9 @@ const GetHelp = ()=> {
 		if(helpGig && helpGig.status === helpGigStatus.ACTIVE){
 			setHelpRequestAssigned(true);
 		}
+		if(helpGig && helpGig.status === helpGigStatus.TIMEOUT){
+			Notifier.start("Sorry, No Helper is currently available! Try Again.","",websiteLink);
+		}
 	},[helpGig]);
 	useEffect(()=>{
 		database
@@ -27,9 +31,9 @@ const GetHelp = ()=> {
 			});
 	},[]);
 	if(helpGig && helpGig.status === helpGigStatus.ASSIGNED){
-		return <HelpAccepted helperId={helpGig.helperId}  onCancel={()=>setHelpRequestAssigned(false)} />
-	} 
-	if(isHelpRequestAssigned){
+		return <HelpAccepted helperId={helpGig.helperId}  onCancel={()=>setHelpRequestAssigned(false)} />;
+	}
+	if(isHelpRequestAssigned  && helpGig && helpGig.status === helpGigStatus.ACTIVE ){
 		return <WaitingForHelp onCancel={()=>setHelpRequestAssigned(false)} />;
 	}
 	else {
