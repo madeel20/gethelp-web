@@ -11,6 +11,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
+import ThumbDownAltIcon from "@material-ui/icons/ThumbDownAlt";
 import {useSelector} from "react-redux";
 import {BrowserRouter as Router} from "react-router-dom";
 import {UserRoles} from "../../utils/Constants";
@@ -76,8 +77,9 @@ const HelperRecords = ()=>{
 													<TableCell
 														align="center">{users.find(it => it.id === obj.userId) && users.find(it => it.id === obj.userId).fullName}</TableCell>
 													<TableCell align="center">{obj.subjectName}</TableCell>
-													<TableCell align="center">{obj.thumbsUp && obj.thumbsUp === true ?
-														<ThumbUpAltIcon/> : "--"}</TableCell>
+													<TableCell align="center">{obj.hasOwnProperty("thumbsUp")?<>
+														{obj.thumbsUp && obj.thumbsUp === true ?
+															<ThumbUpAltIcon/> : <ThumbDownAltIcon/>}</>:"--"}</TableCell>
 												</TableRow>
 											);
 										}}/>

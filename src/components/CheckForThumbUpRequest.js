@@ -35,13 +35,14 @@ const CheckForThumbsUpRequest = ()=>{
 					firestore.collection("users").where("id","==",res[0].helperId).get().then(r=>{
 						if(r.docs.length>0){
 							setHelperUser(convertToArray(r.docs)[0]);
+							Notifier.start("Would you like to give your helper "+ convertToArray(r.docs)[0].fullName +" a thumbs-up?");
 							setCurrentGig(res[0]);
 							setOpen(true);
 						}
 					});
 
 				}
-			}),5000);
+			}),30000);
 		return ()=>{
 			clearInterval(intervalObj.current);
 		};
