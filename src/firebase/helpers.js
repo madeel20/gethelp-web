@@ -10,9 +10,9 @@ export const signInWithGoogle = () => {
 		console.log(error.message);
 	});
 };
-export const logOut = () => {
+export const logOut = (CB) => {
 	auth.signOut().then(()=> {
-
+		CB && CB()
 	}).catch((error) => {
 		console.log(error.message);
 	});

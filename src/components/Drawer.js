@@ -164,7 +164,9 @@ export default function PersistentDrawerLeft({routes}) {
 					}}/>
 				</List>
 				<Divider />
-				<ListItem button onClick={()=> logOut()} >
+				<ListItem button onClick={()=> logOut(()=>{
+					history.push('/');
+				})} >
 					<ListItemIcon>
 						<ExitToAppIcon />
 					</ListItemIcon>

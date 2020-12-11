@@ -49,11 +49,6 @@ function App() {
 	if(!user){
 		return  <AuthStack />;
 	}
-	if(user && isNewUser){
-		return <Provider store={store}>
-			<NewUserStack onFinish={()=>setIsNewUser(false)}/>
-		</Provider>;
-	}
 	if(user && !isNewUser) {
 		return (
 			<Provider store={store}>
@@ -61,6 +56,12 @@ function App() {
 			</Provider>
 		);
 	}
+	if(user && isNewUser){
+		return <Provider store={store}>
+			<NewUserStack onFinish={()=>setIsNewUser(false)}/>
+		</Provider>;
+	}
+
 	return null;
 
 }
