@@ -42,7 +42,7 @@ function App() {
 			  setLoading(false);
 			}
 		});
-	}, []);
+	}, [isNewUser]);
 	if(isLoading){
 		return <div className="d-flex justify-content-center align-items-center c-h-100"> <CircularProgress /></div>;
 	}
