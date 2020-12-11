@@ -21,7 +21,7 @@ const GetHelp = ()=> {
 	useEffect(()=>{
 		database
 			.ref("helpGigs").child(auth.currentUser.uid).on("value", (snapshot) => {
-				if(Object.entries(snapshot.val()).length>0) {
+				if(snapshot.val() && Object.entries(snapshot.val()).length > 0) {
 					dispatch(getHelpGig(snapshot.val()));
 				}
 			});

@@ -35,14 +35,13 @@ const HelpAccepted =({helperId,onCancel})=>{
 			onCancel();
 		}));
 	};
-    console.log(helperUser.meetLink)
 	return (
 		<div className={"container "} style={{height:"400px"}}>
 			<Paper className={"p-4 text-center"}>
 				{loading ?
 					<CircularProgress size={30}/>
 					:<>
-						<h2> Your Request is Accepted By {helperUser.fullName} </h2>
+						<h2>Congrats! {helperUser.fullName} would like to help you!</h2>
 						<a href={helperUser.meetLink} target={"_blank"}> Go To Meeting </a>
 						<Button color={"secondary"} onClick={handleDone}> Done </Button>
 					</>
