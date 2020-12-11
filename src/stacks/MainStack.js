@@ -6,6 +6,7 @@ import { UserRoles} from "../utils/Constants";
 import {HelperUserRoutes, NormalUserRoutes} from "../pages/Routes";
 import { MappedElement} from "../utils/helpers";
 import {auth, database} from "../firebase";
+import CheckForThumbUpRequest from "../components/CheckForThumbUpRequest";
 const HelperUserStack = ()=>{
 	const intervaObj = useRef();
 	useEffect(()=>{
@@ -37,6 +38,7 @@ const HelperUserStack = ()=>{
 const UserStack = ()=>{
 	return (
 		<>
+			<CheckForThumbUpRequest />
 			<PersistentDrawerLeft routes={NormalUserRoutes}/>
 			<div className="layout">
 				<Switch>

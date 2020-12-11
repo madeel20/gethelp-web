@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import WaitingForHelp from "./WaitingForHelp";
 import RequestHelp from "./RequestHelp";
 import {useDispatch, useSelector} from "react-redux";
-import {helperStatus, helpGigStatus} from "../../../utils/Constants";
+import { helpGigStatus} from "../../../utils/Constants";
 import {auth, database} from "../../../firebase";
 import {getHelpGig} from "../../../Store/Actions/UsersActions";
 import HelpAccepted from "./HelpAccepted";
@@ -28,7 +28,7 @@ const GetHelp = ()=> {
 	},[]);
 	if(helpGig && helpGig.status === helpGigStatus.ASSIGNED){
 		return <HelpAccepted helperId={helpGig.helperId}  onCancel={()=>setHelpRequestAssigned(false)} />
-	}
+	} 
 	if(isHelpRequestAssigned){
 		return <WaitingForHelp onCancel={()=>setHelpRequestAssigned(false)} />;
 	}

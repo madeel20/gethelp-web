@@ -41,7 +41,6 @@ const HelperRecords = ()=>{
 		});
 
 	},[]);
-	console.log(records)
 	if(data.role === UserRoles.HELPER_USER) {
 		return (
 			<div className={"container"}>
