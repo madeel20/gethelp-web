@@ -11,6 +11,7 @@ import {helperStatus, helpGigStatus} from "../../../utils/Constants";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import {auth, database} from "../../../firebase";
 import {getHelperUserData, updateHelperUserStatus} from "../../../Store/Actions/UsersActions";
+import {convertDBSnapshoptToArrayOfObject} from "../../../utils/helpers";
 
 const WaitingForHelp =({onCancel})=>{
 	const dispatch = useDispatch();
@@ -26,7 +27,15 @@ const WaitingForHelp =({onCancel})=>{
 		};
 	});
 	const {loading} = stateProps;
-	const handleCancel = ()=>{
+	const handleCancel = async ()=>{
+		// check if any helper is waiting to accept the request .. then un assign him
+		let gig =await database.ref("helpGigs").child(auth.currentUser.uid).once("value");
+		gig = gig.val()?gig.val():{};
+		if(gig.lastHelperAssigned){
+			await database.ref("helpers").child(gig.lastHelperAssigned).update({
+				assignedUser: "",
+			});
+		}
 		dispatch(updateHelpStatus({status: helpGigStatus.CANCELLED,lastHelperAssigned:"",helpersAsked:[],helperId:"",dateTime:""},()=>{
 			onCancel();
 		}));

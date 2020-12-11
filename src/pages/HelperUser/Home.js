@@ -28,7 +28,7 @@ const Home = ()=>{
 		}
 		// assignHelpers();
 	},[]);
-	if(helperUserData.assignedUser!==""){
+	if(helperUserData.assignedUser!=="" && helperUserData.assignedTime && (new Date().getTime() - new Date(helperUserData.assignedTime).getTime())/1000 < 120){
 		return <Request/>;
 	}
 	const assignHelpers = async ()=>{

@@ -115,6 +115,7 @@ const findHelper=async ()=>{
 			await database.ref("helpers").child(finalHelperUser.id).update({
 				status: helperStatus.NOT_AVAILABLE,
 				assignedUser: auth.currentUser.uid,
+				assignedTime: new Date().toUTCString(),
 				requestedToAssign: [...helperData.val().requestedToAssign || [], {
 					userId: auth.currentUser.uid,
 					dateTime: new Date().toUTCString()

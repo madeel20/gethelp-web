@@ -1,17 +1,14 @@
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import React, {useEffect, useState} from "react";
 import {loadSubjects} from "../../../Store/Actions/SubjectActions";
 import Paper from "@material-ui/core/Paper/Paper";
-import Snackbar from "@material-ui/core/Snackbar/Snackbar";
-import Alert from "@material-ui/lab/Alert/Alert";
 import Button from "@material-ui/core/Button";
-import LinearProgress from "@material-ui/core/LinearProgress";
 import {updateHelpStatus} from "../../../Store/Actions/HelpActions";
-import {helperStatus, helpGigStatus, websiteLink} from "../../../utils/Constants";
+import { helpGigStatus, websiteLink} from "../../../utils/Constants";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import {auth, database, firestore} from "../../../firebase";
-import {getHelperUserData, updateHelperUserStatus} from "../../../Store/Actions/UsersActions";
 import Notifier from "react-desktop-notification";
+import {convertDBSnapshoptToArrayOfObject} from "../../../utils/helpers";
 
 const HelpAccepted =({helperId,onCancel})=>{
 	const dispatch = useDispatch();
@@ -26,12 +23,12 @@ const HelpAccepted =({helperId,onCancel})=>{
 			if(res.docs.length>0){
 				setHelperUser(res.docs[0].data());
 				setLoading(false);
-				Notifier.start(res.docs[0].data().fullName +" has accepted you request!",'',websiteLink);
+				Notifier.start(res.docs[0].data().fullName +" has accepted you request!","",websiteLink);
 			}
 		});
 	},[]);
-	const handleDone = ()=>{
-		dispatch(updateHelpStatus({status: helpGigStatus.CANCELLED,lastHelperAssigned:"",helpersAsked:[],helperId:"",dateTime:""},()=>{
+	const handleDone = async ()=>{
+		dispatch(updateHelpStatus({status: helpGigStatus.CANCELLED,lastHelperAssigned:"",helpersAsked:[],helperId:"",dateTime:""}, ()=>{
 			onCancel();
 		}));
 	};
