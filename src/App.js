@@ -8,7 +8,6 @@ import {store} from "./Store";
 import {checkIfItsNewUser} from "./firebase/helpers";
 import NewUserStack from "./stacks/NewUserStack";
 import MainStack from "./stacks/MainStack";
-import Notifier from "react-desktop-notification"
 function App() {
 	const [user, setuser] = useState(null);
 	const [isLoading, setLoading] = useState(true);

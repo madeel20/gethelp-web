@@ -26,6 +26,7 @@ const HelpAccepted =({helperId,onCancel})=>{
 			if(res.docs.length>0){
 				setHelperUser(res.docs[0].data());
 				setLoading(false);
+				Notifier.start(res.docs[0].data().fullName +" has accepted you request!");
 			}
 		});
 	},[]);
