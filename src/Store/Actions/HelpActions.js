@@ -68,7 +68,7 @@ export const insertIntoAcceptedGigs = (gigId,CB) => dispatch => {
 	 database.ref("helpGigs").child(gigId).once("value").then(async res=>{
 		 await  database
 			 .ref("acceptedGigs")
-			 .push(res.val());
+			 .push({...res.val(), acceptedTime: new Date().toUTCString()});
 				 dispatch({type:GetHelp.INSERT_ACCEPTED_GIG,payload: {loading:false}});
 				 CB && CB();
 	 });
