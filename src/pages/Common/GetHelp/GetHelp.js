@@ -33,7 +33,7 @@ const GetHelp = ()=> {
 	if(helpGig && helpGig.status === helpGigStatus.ASSIGNED){
 		return <HelpAccepted helperId={helpGig.helperId}  onCancel={()=>setHelpRequestAssigned(false)} />;
 	}
-	if(isHelpRequestAssigned  && helpGig && helpGig.status === helpGigStatus.ACTIVE ){
+	if(isHelpRequestAssigned  && helpGig && (helpGig.status === helpGigStatus.ACTIVE ||helpGig.status === helpGigStatus.REQUESTED_TO_ASSIGN  )){
 		return <WaitingForHelp onCancel={()=>setHelpRequestAssigned(false)} />;
 	}
 	else {
