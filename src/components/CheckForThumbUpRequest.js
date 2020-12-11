@@ -30,7 +30,7 @@ const CheckForThumbsUpRequest = ()=>{
 				// filter gig where user id is of current user
 				res = res.filter(it=>it.userId===auth.currentUser.uid);
 				// check if there any gig whose thump up is not set ... and the time is greater then 2 min
-				res = res.filter(it=>!it.hasOwnProperty("thumbsUp") && ((new Date().getTime() - new Date(it.acceptedTime).getTime())/1000)>2 );
+				res = res.filter(it=>!it.hasOwnProperty("thumbsUp") && ((new Date().getTime() - new Date(it.acceptedTime).getTime())/1000)> 600 );
 				if(res.length>0){
 					firestore.collection("users").where("id","==",res[0].helperId).get().then(r=>{
 						if(r.docs.length>0){
