@@ -7,7 +7,7 @@ import Alert from "@material-ui/lab/Alert/Alert";
 import Button from "@material-ui/core/Button";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import {updateHelpStatus} from "../../../Store/Actions/HelpActions";
-import {helperStatus, helpGigStatus} from "../../../utils/Constants";
+import {helperStatus, helpGigStatus, websiteLink} from "../../../utils/Constants";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import {auth, database, firestore} from "../../../firebase";
 import {getHelperUserData, updateHelperUserStatus} from "../../../Store/Actions/UsersActions";
@@ -26,12 +26,12 @@ const HelpAccepted =({helperId,onCancel})=>{
 			if(res.docs.length>0){
 				setHelperUser(res.docs[0].data());
 				setLoading(false);
-				Notifier.start(res.docs[0].data().fullName +" has accepted you request!");
+				Notifier.start(res.docs[0].data().fullName +" has accepted you request!",'',websiteLink);
 			}
 		});
 	},[]);
 	const handleDone = ()=>{
-		dispatch(updateHelpStatus({status: helpGigStatus.CANCELLED},()=>{
+		dispatch(updateHelpStatus({status: helpGigStatus.CANCELLED,lastHelperAssigned:"",helpersAsked:[],helperId:"",dateTime:""},()=>{
 			onCancel();
 		}));
 	};

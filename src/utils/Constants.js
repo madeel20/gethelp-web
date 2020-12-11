@@ -15,3 +15,5 @@ export const helperStatus = {
 	AVAILABLE:true,
 	NOT_AVAILABLE: false,
 };
+
+export const websiteLink = "https://gethelp-41219.web.app/";

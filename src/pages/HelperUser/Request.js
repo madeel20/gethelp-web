@@ -6,7 +6,7 @@ import {auth, database, firestore} from "../../firebase";
 import Notifier from "react-desktop-notification";
 import {useDispatch, useSelector} from "react-redux";
 import {insertIntoAcceptedGigs, setAssignedUserOfHelperUser, updateHelpGig} from "../../Store/Actions/HelpActions";
-import {helpGigStatus} from "../../utils/Constants";
+import {helpGigStatus, websiteLink} from "../../utils/Constants";
 
 const Request = ()=>{
 	const dispatch = useDispatch();
@@ -24,7 +24,7 @@ const Request = ()=>{
 				setCurrentRequest(res.val());
 				firestore.collection("users").where("id","==",helperUserData.assignedUser).get().then(res=>{
 					setRequestUser(res.docs[0].data());
-					Notifier.start(res.docs[0].data().fullName +" needs your help!");
+					Notifier.start(res.docs[0].data().fullName +" needs your help!","",websiteLink);
 					setLoading(false);
 				});
 			}
@@ -60,7 +60,7 @@ const Request = ()=>{
 						<h2>{requestUser.fullName} needs your help in {currentRequest.subjectName} of {currentRequest.grade} grade.</h2>
 						<div className={"mt-4 mb-4"}>
 							<Button color={"primary"} onClick={handleAccept} >Accept</Button>
-                            <Button color={"secondary"} onClick={handleCancel}>Decline</Button>
+							<Button color={"secondary"} onClick={handleCancel}>Decline</Button>
 						</div>
 					</div>
 				}

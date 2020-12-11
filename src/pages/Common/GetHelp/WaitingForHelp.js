@@ -27,7 +27,7 @@ const WaitingForHelp =({onCancel})=>{
 	});
 	const {loading} = stateProps;
 	const handleCancel = ()=>{
-		dispatch(updateHelpStatus({status: helpGigStatus.CANCELLED},()=>{
+		dispatch(updateHelpStatus({status: helpGigStatus.CANCELLED,lastHelperAssigned:"",helpersAsked:[],helperId:"",dateTime:""},()=>{
 			onCancel();
 		}));
 	};
