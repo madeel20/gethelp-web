@@ -21,6 +21,7 @@ const CheckForThumbsUpRequest = ()=>{
 	const [currentGig,setCurrentGig] = useState({});
 	const [open,setOpen] = useState(false);
 	const [helperUser,setHelperUser] = useState({});
+	const [intervalFlag,setIntervalFlag] = useState(Math.random())
 	const intervalObj = useRef();
 	const [loading,setLoading] = useState(false);
 	useEffect(()=>{
@@ -31,27 +32,31 @@ const CheckForThumbsUpRequest = ()=>{
 				res = res.filter(it=>it.userId===auth.currentUser.uid);
 				// check if there any gig whose thump up is not set ... and the time is greater then 2 min
 				res = res.filter(it=>!it.hasOwnProperty("thumbsUp") && ((new Date().getTime() - new Date(it.acceptedTime).getTime())/1000)> 600 );
+                console.log(res)
 				if(res.length>0){
 					firestore.collection("users").where("id","==",res[0].helperId).get().then(r=>{
 						if(r.docs.length>0){
+						    console.log(r.docs)
 							setHelperUser(convertToArray(r.docs)[0]);
 							Notifier.start("Would you like to give your helper "+ convertToArray(r.docs)[0].fullName +" a thumbs-up?");
 							setCurrentGig(res[0]);
 							setOpen(true);
+                            clearInterval(intervalObj.current);
 						}
 					});
-
 				}
-			}),30000);
+			}),3000);
 		return ()=>{
 			clearInterval(intervalObj.current);
 		};
-	},[]);
+	},[intervalFlag]);
 	const handleNo = ()=>{
 		setLoading(true);
 		database.ref("acceptedGigs").child(currentGig.id).update({thumbsUp:false}).then(()=>{
 			setLoading(false);
 			setOpen(false);
+			// start listener again
+			setIntervalFlag(Math.random());
 		});
 	};
 	const handleYes = ()=>{
@@ -59,6 +64,8 @@ const CheckForThumbsUpRequest = ()=>{
 		database.ref("acceptedGigs").child(currentGig.id).update({thumbsUp:true}).then(()=>{
 			setLoading(false);
 			setOpen(false);
+            // start listener again
+            setIntervalFlag(Math.random());
 		});
 	};
 	return (

@@ -19,7 +19,7 @@ const Home = ()=>{
 		try {
 			database
 				.ref("helpers").child(auth.currentUser.uid).on("value", (snapshot) => {
-					dispatch(updateHelperUserStatus({status: Object.entries(snapshot.val()).length>1?snapshot.val().status : helperStatus.AVAILABLE}));
+					dispatch(updateHelperUserStatus({status: snapshot && snapshot.val() && Object.entries(snapshot.val()).length>1?snapshot.val().status : helperStatus.AVAILABLE}));
 					dispatch(getHelperUserData(Object.entries(snapshot.val()).length>2?snapshot.val():{assignedUser:""}));
 				});
 		}
@@ -103,11 +103,11 @@ const Home = ()=>{
 						inputProps={{ "aria-label": "primary checkbox" }}
 					/>
 				</Paper>
-				{/*<Link to={"/get-help"}><Paper elevation={0} className={"m-4 p-4 d-flex flex-column align-items-center help-container"} >*/}
-				{/*	<p>	I need help! </p>*/}
-				{/*	<NearMeIcon fontSize="large" />*/}
-				{/*</Paper>*/}
-				{/*</Link>*/}
+				<Link to={"/get-help"}><Paper elevation={0} className={"m-4 p-4 d-flex flex-column align-items-center help-container"} >
+					<p>	I need help! </p>
+					<NearMeIcon fontSize="large" />
+				</Paper>
+				</Link>
 			</div>
 			<p>If you switch toggle to ‘yes,’ keep this tab open; </p><p>You can focus on other tabs. You’ll receive a notification if someone needs help.
 			</p>

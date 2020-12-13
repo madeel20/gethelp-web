@@ -38,7 +38,6 @@ const HelperUserStack = ()=>{
 const UserStack = ()=>{
 	return (
 		<>
-			<CheckForThumbUpRequest />
 			<PersistentDrawerLeft routes={NormalUserRoutes}/>
 			<div className="layout">
 				<Switch>
@@ -56,10 +55,14 @@ const MainStack = ()=>{
 		return {...User};
 	});
 	const { data } = stateProps;
-
-
 	return (
-		<Router>{data.role === UserRoles.NORMAL_USER? <UserStack/>:<HelperUserStack/>}</Router>
+		<Router>
+			<CheckForThumbUpRequest />
+			{data.role === UserRoles.NORMAL_USER?
+				<UserStack/>:
+				<HelperUserStack/>
+			}
+		</Router>
 	);
 };
 
