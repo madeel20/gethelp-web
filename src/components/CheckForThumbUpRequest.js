@@ -1,21 +1,10 @@
 import React, {useEffect, useRef, useState} from "react";
 import {database, auth, firestore} from "../firebase";
-import {convertDBSnapshoptToArrayOfObject, convertToArray, MappedElement} from "../utils/helpers";
-import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
-import { makeStyles } from "@material-ui/core/styles";
-import Alert from "@material-ui/lab/Alert/Alert";
+import {convertDBSnapshoptToArrayOfObject, convertToArray} from "../utils/helpers";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
-import {useSelector} from "react-redux";
 import Button from "@material-ui/core/Button";
-import {GetHelp} from "../Store/Constants/GetHelp";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Notifier from "react-desktop-notification";
-import {websiteLink} from "../utils/Constants";
-const useStyles = makeStyles({
-	table: {
-		minWidth: 650,
-	},
-});
 
 const CheckForThumbsUpRequest = ()=>{
 	const [currentGig,setCurrentGig] = useState({});
@@ -45,7 +34,7 @@ const CheckForThumbsUpRequest = ()=>{
 						}
 					});
 				}
-			}),3000);
+			}),10000);
 		return ()=>{
 			clearInterval(intervalObj.current);
 		};
