@@ -21,11 +21,9 @@ const CheckForThumbsUpRequest = ()=>{
 				res = res.filter(it=>it.userId===auth.currentUser.uid);
 				// check if there any gig whose thump up is not set ... and the time is greater then 2 min
 				res = res.filter(it=>!it.hasOwnProperty("thumbsUp") && ((new Date().getTime() - new Date(it.acceptedTime).getTime())/1000)> 600 );
-                console.log(res)
 				if(res.length>0){
 					firestore.collection("users").where("id","==",res[0].helperId).get().then(r=>{
 						if(r.docs.length>0){
-						    console.log(r.docs)
 							setHelperUser(convertToArray(r.docs)[0]);
 							Notifier.start("Would you like to give your helper "+ convertToArray(r.docs)[0].fullName +" a thumbs-up?");
 							setCurrentGig(res[0]);
@@ -59,7 +57,7 @@ const CheckForThumbsUpRequest = ()=>{
 	};
 	return (
 		<>
-			<Snackbar open={open} autoHideDuration={10000} onClose={()=>setOpen(false)}>
+			<Snackbar open={open} autoHideDuration={30000} onClose={()=>setOpen(false)}>
 				<div className={"d-flex flex-column justify-content-center align-items-center c-notification"}>
 					{loading ? <LinearProgress style={{width:"300px"}} /> :
 						<>   {currentGig && <>
