@@ -7,8 +7,10 @@ import Notifier from "react-desktop-notification";
 import {useDispatch, useSelector} from "react-redux";
 import {insertIntoAcceptedGigs, setAssignedUserOfHelperUser, updateHelpGig} from "../../Store/Actions/HelpActions";
 import {helpGigStatus, websiteLink} from "../../utils/Constants";
+import Alert from "@material-ui/lab/Alert/Alert";
+import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 
-const Request = ()=>{
+const Request = ({onAccepted})=>{
 	const dispatch = useDispatch();
 	const [currentRequest,setCurrentRequest] = useState({});
 	const [requestUser,setRequestUser] = useState({});
@@ -44,6 +46,7 @@ const Request = ()=>{
 		dispatch(updateHelpGig(helperUserData.assignedUser,{ status: helpGigStatus.ASSIGNED,helperId: auth.currentUser.uid},()=> {
 			dispatch(insertIntoAcceptedGigs(helperUserData.assignedUser, () => {
 				dispatch(setAssignedUserOfHelperUser({assignedUser: ""}, () => {
+					onAccepted();
 					setLoading(false);
 				}));
 			}));
@@ -64,6 +67,7 @@ const Request = ()=>{
 						</div>
 					</div>
 				}
+
 			</Paper>
 		</div>
 	);

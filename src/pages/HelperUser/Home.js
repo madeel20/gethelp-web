@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import Paper from "@material-ui/core/Paper";
 import {useDispatch, useSelector} from "react-redux";
 import NearMeIcon from "@material-ui/icons/NearMe";
@@ -9,11 +9,13 @@ import {getHelperUserData, updateHelperUserStatus} from "../../Store/Actions/Use
 import {helperStatus, helpGigStatus,UserRoles} from "../../utils/Constants";
 import Request from "./Request";
 import {convertDBSnapshoptToArrayOfObject, convertToArray} from "../../utils/helpers";
+import Button from "@material-ui/core/Button";
 const Home = ()=>{
 	const dispatch = useDispatch();
 	const stateProps = useSelector(({User})=>{
 		return {...User};
 	});
+	const [isRequestAccepted,setIsRequestAccepted] = useState(false);
 	const { data, activeStatus,helperUserData } = stateProps;
 	useEffect(()=>{
 		try {
@@ -29,7 +31,7 @@ const Home = ()=>{
 		// assignHelpers();
 	},[]);
 	if(helperUserData.assignedUser!=="" && helperUserData.assignedTime && (new Date().getTime() - new Date(helperUserData.assignedTime).getTime())/1000 < 120){
-		return <Request/>;
+		return <Request onAccepted={()=>setIsRequestAccepted(true)}/>;
 	}
 	const assignHelpers = async ()=>{
 		// get all the current help gigs
@@ -89,6 +91,16 @@ const Home = ()=>{
 			}
 		});
 	};
+	if(isRequestAccepted) {
+		return (
+			<div className={"container"}>
+				<Paper elevation={0} className={"m-4 p-4 d-flex flex-column justify-content-center"}>
+					<h4>Hey, {data.fullName} go to your google meet link to help! </h4>
+					<Button color={"primary"} className={' mt-4 mt-4'} onClick={()=>setIsRequestAccepted(false)} >Done</Button>
+				</Paper>
+			</div>
+		);
+	}
 	return (
 		<div className={"container"} >
 			<h1>{data.fullName}</h1>
