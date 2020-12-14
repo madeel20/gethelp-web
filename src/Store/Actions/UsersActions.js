@@ -59,17 +59,19 @@ export const updateMeetingLink = (payload,CB) => dispatch => {
 
 };
 export const updateHelperUserStatus = (payload,CB) => dispatch =>{
-	database
-		.ref("helpers").child(auth.currentUser.uid)
-		.update(payload)
-		.then((res) => {
-			dispatch({type:Users.UPDATE_HELPER_USER_STATUS,payload: payload.status });
-			CB && CB();
-		})
-		.catch((err) => {
-			console.log(err);
-			CB && CB(err);
-		});
+	if( auth && auth.currentUser && auth.currentUser.uid) {
+		database
+			.ref("helpers").child(auth.currentUser.uid)
+			.update(payload)
+			.then((res) => {
+				dispatch({type: Users.UPDATE_HELPER_USER_STATUS, payload: payload.status});
+				CB && CB();
+			})
+			.catch((err) => {
+				console.log(err);
+				CB && CB(err);
+			});
+	}
 };
 export const getHelperUserData = (payload,CB) => dispatch =>{
 	dispatch({type:Users.GET_HELPER_USER_DATA,payload: payload });

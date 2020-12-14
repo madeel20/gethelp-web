@@ -1,18 +1,21 @@
 import React, {useState} from "react";
 import { signInWithGoogle } from "../../firebase/helpers";
-import {Link} from "react-router-dom";
+import {Link,useHistory} from "react-router-dom";
 import Checkbox from "@material-ui/core/Checkbox";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 export default function SignIn() {
 	const [checked, setChecked] = React.useState(false);
 	const [open,setOpen] = useState(false);
+	const history = useHistory();
 	const handleChange = (event) => {
 		setChecked(event.target.checked);
 	};
 	const handleSignIn =()=>{
 		if(checked) {
-			signInWithGoogle();
+			signInWithGoogle(()=>{
+				history.push("/");
+			});
 		}
 		else {
 			setOpen(true);
@@ -36,7 +39,7 @@ export default function SignIn() {
 				</div>
 			</div>
 			<Snackbar open={open} autoHideDuration={3000} onClose={()=>setOpen(false)}>
-						<Alert elevation={6} variant="filled" severity="info">Please accept our Terms of Services and Privacy Policy.</Alert>
+				<Alert elevation={6} variant="filled" severity="info">Please accept our Terms of Services and Privacy Policy.</Alert>
 			</Snackbar>
 
 

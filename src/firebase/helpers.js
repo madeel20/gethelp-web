@@ -2,10 +2,11 @@ import {auth,googleProvider,firestore,database} from "./index";
 import {convertToArray} from "../utils/helpers";
 import {store} from "../Store/index";
 import Users from "../Store/Constants/Users";
-export const signInWithGoogle = () => {
+export const signInWithGoogle = (CB) => {
 	auth.signInWithPopup(googleProvider).then((res) => {
 		// user object
 		console.log(res.user);
+		CB && CB();
 	}).catch((error) => {
 		console.log(error.message);
 	});
