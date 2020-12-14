@@ -150,7 +150,7 @@ export default function PersistentDrawerLeft({routes}) {
 					<Typography variant="h6" noWrap>
 						Hi, {data.fullName}
 					</Typography>
-					<a href={data.meetLink}> <p>{data.meetLink}</p></a>
+					<a href={data.meetLink} target={'_blank'}> <p>{data.meetLink}</p></a>
 					<span className={"format-hint"}>Grade: {data.grade}</span>
 				</div>
 				<Divider />
