@@ -7,7 +7,7 @@ import EditProfile from "./HelperUser/EditProfile";
 
 export const HelperUserRoutes =[
 	{route:"/", component: Home,exact:true,title:"Home"},
-	{route:"/edit-meeting-link",component:EditMeetingLink,title: "Edit Meetling Link"},
+	{route:"/edit-meeting-link",component:EditMeetingLink,title: "Edit Meeting Link"},
 	{route:"/get-help",component:GetHelp,title: "Get Help"},
 	{route:"/helper-records",component:HelperRecords,title:"Helper Records"},
 	{route:"/edit-subjects",component:EditSubjects,title:"Edit Subjects"},

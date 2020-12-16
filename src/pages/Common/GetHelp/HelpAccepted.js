@@ -38,7 +38,7 @@ const HelpAccepted =({helperId,onCancel})=>{
 				{loading ?
 					<CircularProgress size={30}/>
 					:<>
-						<h2>Congrats! {helperUser.fullName} would like to help you!</h2>
+						<h5>Congrats! {helperUser.fullName} would like to help you!</h5>
 						<a href={helperUser.meetLink} target={"_blank"}> Go To Meeting </a>
 						<Button color={"secondary"} onClick={handleDone}> Done </Button>
 					</>
