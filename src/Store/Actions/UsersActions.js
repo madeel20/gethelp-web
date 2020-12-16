@@ -23,20 +23,20 @@ export const insertDetails = (payload,CB) => dispatch => {
 	});
 
 };
-export const updateSubjects = (payload,CB) => dispatch => {
-	dispatch({type:Users.UPDATING_SUBJECTS,payload: {updatingSubjectLoading:true}});
+export const updateProfileDetails = (payload,CB) => dispatch => {
+	dispatch({type:Users.UPDATING_PROFILE_DETAILS,payload: {updatingDetailsLoading:true}});
 	updateDataInFireStoreDocumentByFieldName("email",
 		auth.currentUser.email,
 		"users",
 		payload,
 		async () => {
-			dispatch({type:Users.UPDATE_SUBJECTS,payload: payload});
-			dispatch({type:Users.UPDATING_SUBJECTS,payload: {updatingSubjectLoading:false}});
+			dispatch({type:Users.UPDATE_DETAILS,payload: payload});
+			dispatch({type:Users.UPDATING_PROFILE_DETAILS,payload: {updatingDetailsLoading:false}});
 			CB && CB();
 		}
 	).catch(err=> {
 		console.log(err);
-		dispatch({type:Users.UPDATING_SUBJECTS,payload: {updatingSubjectLoading:false}});
+		dispatch({type:Users.UPDATING_PROFILE_DETAILS,payload: {updatingDetailsLoading:false}});
 	});
 
 };

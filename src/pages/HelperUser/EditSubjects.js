@@ -10,7 +10,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel/FormControlLabe
 import Checkbox from "@material-ui/core/Checkbox/Checkbox";
 import {loadSubjects} from "../../Store/Actions/SubjectActions";
 import {useDispatch, useSelector} from "react-redux";
-import { updateSubjects} from "../../Store/Actions/UsersActions";
+import { updateProfileDetails} from "../../Store/Actions/UsersActions";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 import Alert from "@material-ui/lab/Alert/Alert";
@@ -29,7 +29,7 @@ const EditSubjects = ()=>{
 		};
 	});
 	const {data,loading} = stateProps.Subjects;
-	const {updatingSubjectLoading} = stateProps.User;
+	const {updatingDetailsLoading} = stateProps.User;
 	const [subjects,setSubjects] = useState(stateProps.User.data.subjects || []);
 	const handleSubmit = (e)=>{
 		e.preventDefault();
@@ -39,7 +39,7 @@ const EditSubjects = ()=>{
 			setOpen(true);
 			return;
 		}
-		dispatch(updateSubjects({subjects},()=>{
+		dispatch(updateProfileDetails({subjects},()=>{
 			setError("");
 			setMsg("Subjects Updated!");
 			setOpen(true);
@@ -64,7 +64,7 @@ const EditSubjects = ()=>{
 	return (
 		<div className={"container"}>
 			<Paper className={"p-4"}>
-				{loading || updatingSubjectLoading?
+				{loading || updatingDetailsLoading?
 					<CircularProgress  size={30}/>
 					:
 					<>
