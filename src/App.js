@@ -13,6 +13,10 @@ function App() {
 	const [isLoading, setLoading] = useState(true);
 	const [isNewUser, setIsNewUser] = useState(null);
 	useEffect(() => {
+		// ask permission to show notifications
+		if (Notification.permission !== "granted") {
+			Notification.requestPermission();
+		}
 		auth.onAuthStateChanged(async (user) => {
 			if (user) {
 				const { displayName, email } = user;
