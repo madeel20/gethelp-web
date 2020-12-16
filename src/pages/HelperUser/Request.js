@@ -20,7 +20,7 @@ const Request = ({onAccepted})=>{
 	});
 	const { data,helperUserData } = stateProps;
 	useEffect(()=>{
-		if(helperUserData.assignedUser!=="") {
+		if(helperUserData.hasOwnProperty('assignedUser') && helperUserData.assignedUser!=="") {
 			setLoading(true);
 			database.ref("helpGigs").child(helperUserData.assignedUser).once("value").then(res => {
 				setCurrentRequest(res.val());

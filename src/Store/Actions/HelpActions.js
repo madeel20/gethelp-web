@@ -92,8 +92,10 @@ const findHelper=async ()=>{
 		getHelperStatus.map(it => {
 			finalHelpersData.push({...it, ...helpers.find(item => item.id === it.id)});
 		});
-		// filter those helpers whose last seen was 30 seconds ago and also match grade
-		finalHelpersData = await finalHelpersData.filter(it => ((new Date().getTime() - new Date(it.lastActive).getTime()) / 1000) < 30);
+		// filter those helpers whose last seen was 30 seconds ago and are not assigned to any one
+		finalHelpersData = await finalHelpersData.filter(it => (new Date().getTime() - new Date(it.lastActive).getTime()) / 1000 <
+			30 &&
+			(!it.assignedUser || it.assignedUser === ""));
 		// filter by grade --> equal or greater then user grade
 		finalHelpersData = await finalHelpersData.filter(it => parseInt(it.grade) === parseInt(helpGig.val().grade) || parseInt(it.grade) > parseInt(helpGig.val().grade));
 		console.log(finalHelpersData,)
@@ -108,7 +110,8 @@ const findHelper=async ()=>{
 			await database.ref("helpGigs").child(auth.currentUser.uid).update({
 				status: helpGigStatus.REQUESTED_TO_ASSIGN,
 				helpersAsked: [finalHelperUser.id],
-				lastHelperAssigned: finalHelperUser.id
+				lastHelperAssigned: finalHelperUser.id,
+				lastHelperAssignedTime: new Date().toUTCString()
 			});
 			// also update the helper data that a gig is requested for the helper
 			let helperData = await database.ref("helpers").child(finalHelperUser.id).once("value");
