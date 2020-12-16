@@ -33,64 +33,6 @@ const Home = ()=>{
 	if(helperUserData.assignedUser!=="" && helperUserData.assignedTime && (new Date().getTime() - new Date(helperUserData.assignedTime).getTime())/1000 < 120){
 		return <Request onAccepted={()=>setIsRequestAccepted(true)}/>;
 	}
-	const assignHelpers = async ()=>{
-		// get all the current help gigs
-		let helpGigs = await database.ref("helpGigs").once("value");
-		// convert gig to array of object
-		helpGigs = helpGigs.val()? convertDBSnapshoptToArrayOfObject(helpGigs):[] ;
-		// select only those gigs.. who are active and assigned to a helper
-		helpGigs = await helpGigs.filter(gig=>gig.status===helpGigStatus.ACTIVE || gig.status=== helpGigStatus.REQUESTED_TO_ASSIGN);
-		//get all the helpers data
-		let helpers = await firestore.collection("users").where("role", "==", UserRoles.HELPER_USER).get();
-		// get all the helpers status and last Active related data
-		let getHelperStatus = await database.ref("helpers").once("value");
-		//convert into javascript array of objects
-		helpers = convertToArray(helpers.docs, false);
-		getHelperStatus = await convertDBSnapshoptToArrayOfObject(getHelperStatus).filter(t => t.status === helperStatus.AVAILABLE);
-
-		// combine both firestore and
-		let finalHelpersData = [];
-		getHelperStatus.map(it => {
-			finalHelpersData.push({...it, ...helpers.find(item => item.id === it.id)});
-		});
-		// filter those helpers whose last seen was 30 seconds ago and also match grade
-		finalHelpersData = await finalHelpersData.filter(it => ((new Date().getTime() - new Date(it.lastActive).getTime()) / 1000) < 30);
-		// now loop through each help gig
-		 await  helpGigs.forEach( async helpGig => {
-			// filter helpers by grade --> equal or greater then user grade
-			finalHelpersData = await finalHelpersData.filter(it => parseInt(it.grade) === parseInt(helpGig.grade) || parseInt(it.grade) > parseInt(helpGig.grade));
-
-			// filter by subject
-			finalHelpersData = await finalHelpersData.filter(it => it.subjects.filter(subject => subject.id === helpGig.subjectId).length > 0);
-
-			// if the filtred helpers are greater then 0 then further go forward
-			if (finalHelpersData.length > 0) {
-				// loop through each filtered helper user
-				finalHelpersData.forEach(async finalHelperUser=>{
-					// check if the helper asked is empty or the current helperis not in the list of helpers asked
-					if(!helpGig.helpersAsked || helpGig.helpersAsked.indexOf(finalHelperUser.id) === -1) {
-
-						// assign the gig to the helper found
-						await database.ref("helpGigs").child(auth.currentUser.uid).update({
-							status: helpGigStatus.REQUESTED_TO_ASSIGN,
-							helpersAsked: [finalHelperUser.id],
-							lastHelperAssigned: finalHelperUser.id
-						});
-						// also update the helper data that a gig is requested for the helper
-						let helperData = await database.ref("helpers").child(finalHelperUser.id).once("value");
-						await database.ref("helpers").child(finalHelperUser.id).update({
-							status: helperStatus.NOT_AVAILABLE,
-							assignedUser: helpGig.id,
-							requestedToAssign: [...helperData.val().requestedToAssign || [], {
-								userId: auth.currentUser.uid,
-								dateTime: new Date().toUTCString()
-							}],
-						});
-					}
-				});
-			}
-		});
-	};
 	if(isRequestAccepted) {
 		return (
 			<div className={"container"}>

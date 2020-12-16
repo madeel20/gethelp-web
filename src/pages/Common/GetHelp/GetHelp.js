@@ -2,9 +2,9 @@ import React, {useEffect, useState} from "react";
 import WaitingForHelp from "./WaitingForHelp";
 import RequestHelp from "./RequestHelp";
 import {useDispatch, useSelector} from "react-redux";
-import {helpGigStatus, websiteLink} from "../../../utils/Constants";
+import {helperStatus, helpGigStatus, websiteLink} from "../../../utils/Constants";
 import {auth, database} from "../../../firebase";
-import {getHelpGig} from "../../../Store/Actions/UsersActions";
+import {getHelpGig, updateHelperUserStatus} from "../../../Store/Actions/UsersActions";
 import HelpAccepted from "./HelpAccepted";
 import Notifier from "react-desktop-notification";
 const GetHelp = ()=> {
@@ -15,6 +15,7 @@ const GetHelp = ()=> {
 	});
 	const {helpGig} = stateProps;
 	useEffect(()=>{
+		dispatch(updateHelperUserStatus({status:helperStatus.NOT_AVAILABLE}))
 		if(helpGig && helpGig.status === helpGigStatus.ACTIVE){
 			setHelpRequestAssigned(true);
 		}
