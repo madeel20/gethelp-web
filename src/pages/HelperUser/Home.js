@@ -38,14 +38,14 @@ const Home = ()=>{
 			<div className={"container"}>
 				<Paper elevation={0} className={"m-4 p-4 d-flex flex-column justify-content-center"}>
 					<h4>Hey, {data.fullName} go to your google meet link to help! </h4>
-					<Button color={"primary"} className={' mt-4 mt-4'} onClick={()=>setIsRequestAccepted(false)} >Done</Button>
+					<Button color={"primary"} className={" mt-4 mt-4"} onClick={()=>setIsRequestAccepted(false)} >Done</Button>
 				</Paper>
 			</div>
 		);
 	}
 	return (
 		<div className={"container"} >
-			<h1>{data.fullName}</h1>
+			<h1 className={"c-h1"}>{data.fullName}</h1>
 			<div className={"d-flex flex-direction-row"}>
 				<Paper elevation={0} className={"m-4 p-4"} >
 					<p>	Are you available to help? </p>
@@ -65,7 +65,7 @@ const Home = ()=>{
 			</div>
 			<p>If you switch toggle to ‘yes,’ keep this tab open; </p><p>You can focus on other tabs. You’ll receive a notification if someone needs help.
 			</p>
-			<p>Your google meet to help others is: {data.meetLink}</p>
+			<p>Your Google Meet link to help others is shown at the top of the tool bar under your name</p>
 		</div>
 	);
 };

@@ -45,7 +45,7 @@ const EditMeetingLink = ()=>{
 					<CircularProgress  size={30}/>
 					:
 					<>
-						<h1 className={"mb-4"}> Edit Meeting Link </h1>
+						<h1 className={"mb-4 c-h1"}> Edit Meeting Link </h1>
 						<form noValidate autoComplete="off" onSubmit={handleSubmit}>
 							<FormControl className={"mb-4"}  component="fieldset">
 								<FormLabel component="legend">Your Google Meet Link.</FormLabel>
@@ -56,7 +56,7 @@ const EditMeetingLink = ()=>{
 										name={"link"}
 										label="Link"
 										defaultValue={meetLink}
-										className={"mb-2"}
+										className={"mb-2 mt-2"}
 										onChange={e => setMeetLink(e.target.value)}
 										variant="outlined"
 										required

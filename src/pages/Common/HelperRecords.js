@@ -50,7 +50,7 @@ const HelperRecords = ()=>{
 						<CircularProgress size={30}/>
 						:
 						<>
-							<h1> Helping Records </h1>
+							<h1 className={"c-h1"}> Helping Records </h1>
 							<div className={"p-4 d-flex justify-content-between"}>
 								<span> Thumbs-up: {records.filter(it => it.thumbsUp && it.thumbsUp === true).length} </span>
 								<span> Total Count: {records.length} </span></div>

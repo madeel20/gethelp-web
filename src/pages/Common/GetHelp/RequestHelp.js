@@ -63,13 +63,13 @@ const RequestHelp =({onRequest})=>{
 	};
 	return (
 		<div className={"container"}>
-			<Paper className={"p-4"}>
+			<Paper className={"p-4 d-flex flex-column justify-content-center align-items-center"}>
 				{loading || stateProps.Subjects.loading?
 					<CircularProgress  size={30}/>
 					:
 					<>
-						<h1> Ask for help </h1>
-						<form noValidate autoComplete="off" onSubmit={handleSubmit} className={"p-4"}>
+						<h1 className={"c-h1"}> Ask for help </h1>
+						<form className={"p-4 d-flex flex-column justify-content-center align-items-center"} noValidate autoComplete="off" onSubmit={handleSubmit} className={"p-4"}>
 							<FormControl component="fieldset">
 								<FormLabel component="legend">What subject would you like to be helped with?</FormLabel>
 								<RadioGroup aria-label="subject" name="subject" value={subject} onChange={handleChange}>

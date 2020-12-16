@@ -9,6 +9,7 @@ import CircularProgress from "@material-ui/core/CircularProgress/CircularProgres
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 import Alert from "@material-ui/lab/Alert/Alert";
 import TextField from "@material-ui/core/TextField/TextField";
+import {Link} from "react-router-dom";
 const EditProfile = ()=>{
 	const dispatch = useDispatch();
 	const [error,setError] = useState(false);
@@ -41,15 +42,16 @@ const EditProfile = ()=>{
 		}));
 	};
 	return (
-		<div className={"container"}>
-			<Paper className={"p-4"}>
+		<div className={"container "}>
+			<Paper className={"p-4 d-flex flex-column justify-content-center align-items-center"}>
 				{loading || updatingDetailsLoading?
 					<CircularProgress  size={30}/>
 					:
 					<>
-						<span className={"c-h1 mt-4 mb-4"}>Edit Profile</span>
-						<form noValidate autoComplete="off" className={'mt-4'} onSubmit={handleSubmit}>
-							<TextField
+						<span className={"c-h1"}>Edit Profile</span>
+						<form className={"p-4 d-flex flex-column justify-content-center align-items-center"} noValidate autoComplete="off" onSubmit={handleSubmit}>
+
+						<TextField
 								fullWidth
 								error={false}
 								name={"fullname"}
@@ -82,11 +84,12 @@ const EditProfile = ()=>{
 								fullWidth
 								type={"submit"}
 								variant="contained"
-								className={"c-button mt-2"}
+								className={"c-button mt-2 text-center"}
 								endIcon={<ArrowForwardIcon />}
 							>
 						Submit
 							</Button>
+							<Link to={"/"} className={'mt-4'}>Go back to home</Link>
 						</form>
 					</>}
 			</Paper>

@@ -58,7 +58,7 @@ const Request = ({onAccepted})=>{
 					<CircularProgress size={30}/>
 					:
 					<div className={"d-flex flex-column align-items-center"}>
-						<h5>{requestUser.fullName} needs your help in {currentRequest.subjectName} of {currentRequest.grade} grade.</h5>
+						<h5>{requestUser.fullName} needs your help in {currentRequest.subjectName} of Grade {currentRequest.grade}.</h5>
 						<div className={"mt-4 mb-4"}>
 							<Button color={"primary"} onClick={handleAccept} >Accept</Button>
 							<Button color={"secondary"} onClick={handleCancel}>Decline</Button>

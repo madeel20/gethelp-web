@@ -14,6 +14,7 @@ import { updateProfileDetails} from "../../Store/Actions/UsersActions";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 import Alert from "@material-ui/lab/Alert/Alert";
+import {Link} from "react-router-dom";
 const EditSubjects = ()=>{
 	const dispatch = useDispatch();
 	const [error,setError] = useState("");
@@ -63,13 +64,13 @@ const EditSubjects = ()=>{
 	};
 	return (
 		<div className={"container"}>
-			<Paper className={"p-4"}>
+			<Paper className={"p-4 d-flex flex-column justify-content-center align-items-center"}>
 				{loading || updatingDetailsLoading?
 					<CircularProgress  size={30}/>
 					:
 					<>
-						<h1> Edit Subjects </h1>
-						<form noValidate autoComplete="off" onSubmit={handleSubmit}>
+						<h2 className={"c-h1"}> Edit Subjects </h2>
+						<form className={"p-4 d-flex flex-column justify-content-center align-items-center"} noValidate autoComplete="off" onSubmit={handleSubmit}>
 							<FormControl component="fieldset">
 								<FormLabel component="legend">Select the subjects you’d like to help in.</FormLabel>
 								<FormGroup>
@@ -85,6 +86,7 @@ const EditSubjects = ()=>{
 							>
 							Save
 							</Button>
+							<Link to={"/"} className={'mt-4'}>Go back to home</Link>
 						</form>
 					</>
 				}
