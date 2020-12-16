@@ -13,11 +13,11 @@ const NewUserStack = ({onFinish})=>{
 		switch (index) {
 		case 0:
 			return  <FirstStep onNext={onNext} />;
+		// case 1:
+		// 	return <SecondStep onFinish={onFinish} onNext={onNext} />;
 		case 1:
-			return <SecondStep onFinish={onFinish} onNext={onNext} />;
-		case 2:
 			return <ThirdStep onNext={onNext} />;
-		case 3:
+		case 2:
 			return <FourthStep onFinish={onFinish} onNext={onNext} />;
 		default:
 			return null;

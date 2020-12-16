@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {insertDetails, setNewUserData} from "../../Store/Actions/UsersActions";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import {GetHelp} from "../../Store/Constants/GetHelp";
-import {helperStatus} from "../../utils/Constants";
+import {helperStatus, UserRoles} from "../../utils/Constants";
 const FourthStep = ({onNext,onFinish})=>{
 	const dispatch = useDispatch();
 	const [meetLink,setLink] = useState("");
@@ -27,9 +27,9 @@ const FourthStep = ({onNext,onFinish})=>{
 			setOpen(true);
 			return;
 		}
-		 dispatch(insertDetails({...newData,id: auth.currentUser.uid, email: auth.currentUser.email,  meetLink},()=>{
+		 dispatch(insertDetails({...newData,id: auth.currentUser.uid, email: auth.currentUser.email,  meetLink,role: UserRoles.HELPER_USER},()=>{
 			 database
-				 .ref("helpers").child(auth.currentUser.uid)
+		 		 .ref("helpers").child(auth.currentUser.uid)
 				 .update({status: helperStatus.AVAILABLE});
 		        onFinish();
 		}));
