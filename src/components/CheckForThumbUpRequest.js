@@ -5,12 +5,13 @@ import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 import Button from "@material-ui/core/Button";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Notifier from "react-desktop-notification";
+import {websiteLink} from "../utils/Constants";
 
 const CheckForThumbsUpRequest = ()=>{
 	const [currentGig,setCurrentGig] = useState({});
 	const [open,setOpen] = useState(false);
 	const [helperUser,setHelperUser] = useState({});
-	const [intervalFlag,setIntervalFlag] = useState(Math.random())
+	const [intervalFlag,setIntervalFlag] = useState(Math.random());
 	const intervalObj = useRef();
 	const [loading,setLoading] = useState(false);
 	useEffect(()=>{
@@ -25,10 +26,10 @@ const CheckForThumbsUpRequest = ()=>{
 					firestore.collection("users").where("id","==",res[0].helperId).get().then(r=>{
 						if(r.docs.length>0){
 							setHelperUser(convertToArray(r.docs)[0]);
-							Notifier.start("Would you like to give your helper "+ convertToArray(r.docs)[0].fullName +" a thumbs-up?");
+							Notifier.start("Would you like to give your helper "+ convertToArray(r.docs)[0].fullName +" a thumbs-up?","",websiteLink);
 							setCurrentGig(res[0]);
 							setOpen(true);
-                            clearInterval(intervalObj.current);
+							clearInterval(intervalObj.current);
 						}
 					});
 				}
@@ -51,8 +52,8 @@ const CheckForThumbsUpRequest = ()=>{
 		database.ref("acceptedGigs").child(currentGig.id).update({thumbsUp:true}).then(()=>{
 			setLoading(false);
 			setOpen(false);
-            // start listener again
-            setIntervalFlag(Math.random());
+			// start listener again
+			setIntervalFlag(Math.random());
 		});
 	};
 	return (

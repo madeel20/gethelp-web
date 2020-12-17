@@ -4,11 +4,10 @@ import {useDispatch, useSelector} from "react-redux";
 import NearMeIcon from "@material-ui/icons/NearMe";
 import Switch from "@material-ui/core/Switch";
 import {Link} from "react-router-dom";
-import {auth, database,firestore} from "../../firebase";
+import {auth, database} from "../../firebase";
 import {getHelperUserData, updateHelperUserStatus} from "../../Store/Actions/UsersActions";
-import {helperStatus, helpGigStatus,UserRoles} from "../../utils/Constants";
+import {helperStatus} from "../../utils/Constants";
 import Request from "./Request";
-import {convertDBSnapshoptToArrayOfObject, convertToArray} from "../../utils/helpers";
 import Button from "@material-ui/core/Button";
 const Home = ()=>{
 	const dispatch = useDispatch();
@@ -28,7 +27,6 @@ const Home = ()=>{
 		catch (e) {
 			console.log(e);
 		}
-		// assignHelpers();
 	},[]);
 	if(helperUserData.assignedUser!=="" && helperUserData.assignedTime && (new Date().getTime() - new Date(helperUserData.assignedTime).getTime())/1000 < 120){
 		return <Request onAccepted={()=>setIsRequestAccepted(true)}/>;
@@ -63,8 +61,8 @@ const Home = ()=>{
 				</Paper>
 				</Link>
 			</div>
-			<p>If you switch toggle to ‘yes,’ keep this tab open; </p><p>You can focus on other tabs. You’ll receive a notification if someone needs help.
-			</p>
+			<p>If you switch toggle to ‘yes,’ keep this tab open; </p>
+			<p>You can focus on other tabs. You’ll receive a notification if someone needs help.</p>
 			<p>Your Google Meet link to help others is shown at the top of the tool bar under your name</p>
 		</div>
 	);

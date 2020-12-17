@@ -1,7 +1,7 @@
 import React, {useEffect, useRef} from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PersistentDrawerLeft from "../components/Drawer";
-import {useDispatch, useSelector} from "react-redux";
+import { useSelector} from "react-redux";
 import { UserRoles} from "../utils/Constants";
 import {HelperUserRoutes, NormalUserRoutes} from "../pages/Routes";
 import { MappedElement} from "../utils/helpers";

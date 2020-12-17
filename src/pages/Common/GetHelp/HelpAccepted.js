@@ -6,9 +6,8 @@ import Button from "@material-ui/core/Button";
 import {updateHelpStatus} from "../../../Store/Actions/HelpActions";
 import { helpGigStatus, websiteLink} from "../../../utils/Constants";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
-import {auth, database, firestore} from "../../../firebase";
+import {firestore} from "../../../firebase";
 import Notifier from "react-desktop-notification";
-import {convertDBSnapshoptToArrayOfObject} from "../../../utils/helpers";
 
 const HelpAccepted =({helperId,onCancel})=>{
 	const dispatch = useDispatch();
