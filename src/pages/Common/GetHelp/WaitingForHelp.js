@@ -52,6 +52,8 @@ const WaitingForHelp =({onCancel})=>{
 					:
 					<Button color={"secondary"} className={"mt-4"} onClick={handleCancel}> Cancel </Button>
 				}
+				<p className={'mt-4'}>Please be ready to share your screen with the problem you try to solve.</p>
+				<p>If your problem is on paper, please take a photo using your phone and show the photo on your computer screen.</p>
 				<Snackbar open={open} autoHideDuration={3000} onClose={()=>setOpen(false)}>
 					<>
 						{error !=="" && <Alert elevation={6} variant="filled" severity="warning">{error}</Alert>}
