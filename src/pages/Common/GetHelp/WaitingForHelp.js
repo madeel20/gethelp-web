@@ -1,23 +1,16 @@
 import {useDispatch, useSelector} from "react-redux";
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {loadSubjects} from "../../../Store/Actions/SubjectActions";
 import Paper from "@material-ui/core/Paper/Paper";
-import Snackbar from "@material-ui/core/Snackbar/Snackbar";
-import Alert from "@material-ui/lab/Alert/Alert";
 import Button from "@material-ui/core/Button";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import {updateHelpStatus} from "../../../Store/Actions/HelpActions";
-import {helperStatus, helpGigStatus} from "../../../utils/Constants";
+import { helpGigStatus} from "../../../utils/Constants";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import {auth, database} from "../../../firebase";
-import {getHelperUserData, updateHelperUserStatus} from "../../../Store/Actions/UsersActions";
-import {convertDBSnapshoptToArrayOfObject} from "../../../utils/helpers";
 
 const WaitingForHelp =({onCancel})=>{
 	const dispatch = useDispatch();
-	const [error,setError] = useState("");
-	const [msg,setMsg] = useState("");
-	const [open,setOpen] = useState(false);
 	useEffect(()=>{
 		dispatch(loadSubjects());
 	},[]);
@@ -52,14 +45,8 @@ const WaitingForHelp =({onCancel})=>{
 					:
 					<Button color={"secondary"} className={"mt-4"} onClick={handleCancel}> Cancel </Button>
 				}
-				<p className={'mt-4'}>Please be ready to share your screen with the problem you try to solve.</p>
+				<p className={"mt-4"}>Please be ready to share your screen with the problem you try to solve.</p>
 				<p>If your problem is on paper, please take a photo using your phone and show the photo on your computer screen.</p>
-				<Snackbar open={open} autoHideDuration={3000} onClose={()=>setOpen(false)}>
-					<>
-						{error !=="" && <Alert elevation={6} variant="filled" severity="warning">{error}</Alert>}
-						{msg !=="" && <Alert elevation={6} variant="filled" severity="success">{msg}</Alert>}
-					</>
-				</Snackbar>
 			</Paper>
 		</div>
 	);

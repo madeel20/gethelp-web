@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import WaitingForHelp from "./WaitingForHelp";
 import RequestHelp from "./RequestHelp";
 import {useDispatch, useSelector} from "react-redux";
@@ -10,6 +10,7 @@ import Notifier from "react-desktop-notification";
 const GetHelp = ()=> {
 	const dispatch = useDispatch();
 	const [isHelpRequestAssigned,setHelpRequestAssigned] = useState(false);
+	const isNotificationAlreadyShown = useRef(false);
 	const stateProps = useSelector(({User})=>{
 		return {...User};
 	});
@@ -19,8 +20,9 @@ const GetHelp = ()=> {
 		if(helpGig && helpGig.status === helpGigStatus.ACTIVE){
 			setHelpRequestAssigned(true);
 		}
-		if(helpGig && helpGig.status === helpGigStatus.TIMEOUT){
+		if(helpGig && helpGig.status === helpGigStatus.TIMEOUT && !isNotificationAlreadyShown.current){
 			Notifier.start("Sorry, No Helper is currently available! Try Again.","",websiteLink);
+			isNotificationAlreadyShown.current = true;
 		}
 	},[helpGig]);
 	useEffect(()=>{
