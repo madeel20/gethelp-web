@@ -34,12 +34,12 @@ const EditSubjects = ()=>{
 	const [subjects,setSubjects] = useState(stateProps.User.data.subjects || []);
 	const handleSubmit = (e)=>{
 		e.preventDefault();
-		if(subjects.length===0){
-			setMsg("");
-			setError("Please select at least one subject.");
-			setOpen(true);
-			return;
-		}
+		// if(subjects.length===0){
+		// 	setMsg("");
+		// 	setError("Please select at least one subject.");
+		// 	setOpen(true);
+		// 	return;
+		// }
 		dispatch(updateProfileDetails({subjects},()=>{
 			setError("");
 			setMsg("Subjects Updated!");

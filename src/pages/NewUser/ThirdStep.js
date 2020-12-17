@@ -29,11 +29,11 @@ const ThirdStep = ({onNext})=>{
 	const {data,loading} = stateProps;
 	const handleSubmit = (e)=>{
 		e.preventDefault();
-		if(subjects.length===0){
-			setError("Please select atleast one subject.");
-			setOpen(true);
-			return;
-		}
+		// if(subjects.length===0){
+		// 	setError("Please select atleast one subject.");
+		// 	setOpen(true);
+		// 	return;
+		// }
 		dispatch(setNewUserData({subjects}));
 		onNext();
 	};
