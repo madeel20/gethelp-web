@@ -33,7 +33,7 @@ const GetHelp = ()=> {
 				}
 			});
 	},[]);
-	if(helpGig && helpGig.status === helpGigStatus.ASSIGNED){
+	if(helpGig && helpGig.status === helpGigStatus.ASSIGNED && ((new Date().getTime() - new Date(helpGig.dateTime).getTime())/1000) < 900 ){
 		return <HelpAccepted helperId={helpGig.helperId}  onCancel={()=>setHelpRequestAssigned(false)} />;
 	}
 	if(isHelpRequestAssigned  && helpGig && (helpGig.status === helpGigStatus.ACTIVE ||helpGig.status === helpGigStatus.REQUESTED_TO_ASSIGN  )){
