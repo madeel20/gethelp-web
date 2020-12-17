@@ -5,7 +5,6 @@ import Users from "../Store/Constants/Users";
 export const signInWithGoogle = (CB) => {
 	auth.signInWithPopup(googleProvider).then((res) => {
 		// user object
-		console.log(res.user);
 		CB && CB();
 	}).catch((error) => {
 		console.log(error.message);

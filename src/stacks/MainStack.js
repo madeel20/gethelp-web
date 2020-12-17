@@ -10,8 +10,8 @@ import CheckForThumbUpRequest from "../components/CheckForThumbUpRequest";
 const HelperUserStack = ()=>{
 	const intervaObj = useRef();
 	useEffect(()=>{
-		intervaObj.current = setInterval(()=>updateLastActive(),
-			10000);
+		intervaObj.current = setInterval(()=> updateLastActive() ,
+			20000);
 		return ()=> {
 			clearInterval(intervaObj.current);
 		};
