@@ -77,6 +77,7 @@ const ThirdStep = ({onNext})=>{
 						>
 							Next
 						</Button>
+						<span className={'link-hint mt-4'}>Simply click “NEXT” if you just want to get help at this moment</span>
 					</form>
 				}
 			</div>

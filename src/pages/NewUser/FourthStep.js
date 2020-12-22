@@ -43,9 +43,9 @@ const FourthStep = ({onNext,onFinish})=>{
 					<CircularProgress size={50}/>
 					:
 					<form noValidate autoComplete="off" onSubmit={handleSubmit}>
-						<p>Go to meet.google.com using the same Google Account you signed up with and get a Google Meet
-                            link. This will be the permanent link you use to host help sessions.</p>
-						<p>Paste your Google Meet link.</p>
+						<p>Now go to meet.google.com (Add hyperlink to meet.google.com).</p>
+						<p><b>Important:</b> Make sure you are using the same personal Google Account you signed up with.
+Now click “New meeting” and then “Create a meeting for later”, copy that Google Meet link. This will be the permanent link you use to host help sessions.</p>
 						<TextField
 							fullWidth
 							error={false}
@@ -59,7 +59,7 @@ const FourthStep = ({onNext,onFinish})=>{
 							value={meetLink}
 							error={error}
 						/>
-						<span className={'link-hint'}>Format: https:// your meet link</span>
+						<span className={'link-hint mb-2'}>Format: https:// your meet link</span>
 						<Button
 							fullWidth
 							type={"submit"}

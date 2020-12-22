@@ -20,8 +20,10 @@ export const convertToArray = (data, bindAlsoDocumentId=true) => {
 };
 export const convertDBSnapshoptToArrayOfObject = (snapshot) => {
 	let arr = [];
-	Object.entries(snapshot.val()).forEach((it) => {
-		arr.push({id: it[0], ...it[1]});
-	});
+	if(snapshot && snapshot.val() && Object.entries(snapshot.val()).length>0){
+		Object.entries(snapshot.val()).forEach((it) => {
+			arr.push({id: it[0], ...it[1]});
+		});
+	}
 	return arr;
 };
