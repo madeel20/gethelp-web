@@ -11,7 +11,7 @@ import {insertDetails, setNewUserData} from "../../Store/Actions/UsersActions";
 import {UserRoles} from "../../utils/Constants";
 import {auth} from "../../firebase";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
-const SecondStep = ({onNext,onFinish})=>{
+const SecondStep = ({ onNext, onFinish })=>{
 	const dispatch = useDispatch();
 	const [role,setRole] = useState(UserRoles.NORMAL_USER);
 	const stateProps = useSelector(({User})=>{

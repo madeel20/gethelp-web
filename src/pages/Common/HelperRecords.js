@@ -78,7 +78,7 @@ const HelperRecords = ()=>{
 													<TableCell align="center">{obj.subjectName}</TableCell>
 													<TableCell align="center">{obj.hasOwnProperty("thumbsUp")?<>
 														{obj.thumbsUp && obj.thumbsUp === true ?
-															<ThumbUpAltIcon/> : <ThumbDownAltIcon/>}</>:"--"}</TableCell>
+															<ThumbUpAltIcon/> : "--"}</>:"--"}</TableCell>
 												</TableRow>
 											);
 										}}/>

@@ -64,7 +64,7 @@ const CheckForThumbsUpRequest = ()=>{
 						<>   {currentGig && <>
                             Would you like to give your helper {helperUser.fullName} a thumbs-up?
 							<span><Button onClick={handleYes} className={"mr-4"} color={"primary"}>Yes</Button>
-								<Button onClick={handleNo} color={"secondary"}>No
+								<Button onClick={handleNo} color={"secondary"}>Not this time
 								</Button></span></>}
 						</>    }
 				</div>
