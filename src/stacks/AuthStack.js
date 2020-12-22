@@ -7,10 +7,10 @@ const AuthStack = ()=>{
 		<Router>
 			<Switch>
 				<Route exact path="/">
-					<SignUp />
-				</Route>
-				<Route path={"/sign-in"}>
 					<SignIn/>
+				</Route>
+				<Route path={"/sign-up"}>
+					<SignUp />
 				</Route>
 			</Switch>
 		</Router>

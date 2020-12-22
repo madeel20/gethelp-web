@@ -35,7 +35,7 @@ export default function SignIn() {
 					color="#F0826E"
 				/><span>I agree to the <b>Terms of Services</b> and <b>Privacy Policy</b></span></div>
 				<div>
-					<span className={"c-p"}>Already have an Account? </span><Link to={"/sign-in"}>Sign In</Link>
+					<span className={"c-p"}>Already have an Account? </span><Link to={"/"}>Sign In</Link>
 				</div>
 			</div>
 			<Snackbar open={open} autoHideDuration={3000} onClose={()=>setOpen(false)}>
