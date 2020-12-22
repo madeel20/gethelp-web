@@ -88,6 +88,8 @@ const RequestHelp =({onRequest})=>{
 						</form>
 					</>
 				}
+				<p className={"link-hint large mt-2"}>Please be ready to share your screen with the problem you try to solve.</p>
+				<p className={"link-hint large"}>If your problem is on paper, please take a photo using your phone and show the photo on your computer screen.</p>
 				<Snackbar open={open} autoHideDuration={3000} onClose={()=>setOpen(false)}>
 					<>
 						{error !=="" && <Alert elevation={6} variant="filled" severity="warning">{error}</Alert>}

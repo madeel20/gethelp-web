@@ -45,8 +45,6 @@ const WaitingForHelp =({onCancel})=>{
 					:
 					<Button color={"secondary"} className={"mt-4"} onClick={handleCancel}> Cancel </Button>
 				}
-				<p className={"mt-4"}>Please be ready to share your screen with the problem you try to solve.</p>
-				<p>If your problem is on paper, please take a photo using your phone and show the photo on your computer screen.</p>
 			</Paper>
 		</div>
 	);

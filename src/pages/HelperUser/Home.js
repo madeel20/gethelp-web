@@ -55,7 +55,8 @@ const Home = ()=>{
 						color="primary"
 						name="checkedB"
 						inputProps={{ "aria-label": "primary checkbox" }}
-					/>
+					/> 
+					<p className="link-hint mt-2">Please use the “Edit Subjects” link on the left to select<br/> or update subjects you would like to help with.</p>
 				</Paper>
 				<Link to={"/get-help"}><Paper elevation={0} className={"m-4 p-4 d-flex flex-column align-items-center help-container"} >
 					<p>	I need help! </p>

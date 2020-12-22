@@ -40,6 +40,13 @@
       font-size: $p-size;
 
     }
+    .link-hint{
+      font-size: 10px;
+      color: grey;
+      &.large{
+          font-size: 12px;
+      }
+    }
   }
 }
 a{
@@ -70,3 +77,4 @@ a{
   border: 1px solid grey;
 
 }
+
