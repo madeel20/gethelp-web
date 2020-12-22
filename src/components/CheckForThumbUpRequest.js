@@ -33,7 +33,7 @@ const CheckForThumbsUpRequest = ()=>{
 						}
 					});
 				}
-			}),10000);
+			}),40000);
 		return ()=>{
 			clearInterval(intervalObj.current);
 		};

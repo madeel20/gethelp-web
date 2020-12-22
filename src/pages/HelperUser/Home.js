@@ -36,7 +36,9 @@ const Home = ()=>{
 			<div className={"container"}>
 				<Paper elevation={0} className={"m-4 p-4 d-flex flex-column justify-content-center"}>
 					<h4>Hey, {data.fullName} go to your google meet link to help! </h4>
+					<a href={data.meetLink} target={'_blank'}> <p>{data.meetLink}</p></a>
 					<Button color={"primary"} className={" mt-4 mt-4"} onClick={()=>setIsRequestAccepted(false)} >Done</Button>
+					<p className="mt-4">Click 'DONE' after the meeting session is finished.</p>
 				</Paper>
 			</div>
 		);

@@ -40,6 +40,7 @@ const HelpAccepted =({helperId,onCancel})=>{
 						<h5>Congrats! {helperUser.fullName} would like to help you!</h5>
 						<a href={helperUser.meetLink} target={"_blank"}> Go To Meeting </a>
 						<Button color={"secondary"} onClick={handleDone}> Done </Button>
+						<p className="mt-4">Click 'DONE' after the meeting session is finished.</p>
 					</>
 				}
 			</Paper>
