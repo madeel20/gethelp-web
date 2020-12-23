@@ -52,13 +52,13 @@ const Request = ({onAccepted})=>{
 	};
 	return (
 		<div className={"container"} >
-			<h1>Hi, {data.fullName}</h1>
+			<h1>Hi {data.fullName}</h1>
 			<Paper className={"d-flex flex-direction-row p-4 p-4"}>
 				{loading ?
 					<CircularProgress size={30}/>
 					:
 					<div className={"d-flex flex-column align-items-center"}>
-						<h5>{requestUser.fullName} needs your help in {currentRequest.subjectName} of Grade {currentRequest.grade}.</h5>
+						<h5>{requestUser.fullName} of Grade {currentRequest.grade} needs your help in {currentRequest.subjectName}.</h5>
 						<div className={"mt-4 mb-4"}>
 							<Button color={"primary"} onClick={handleAccept} >Accept</Button>
 							<Button color={"secondary"} onClick={handleCancel}>Decline</Button>
