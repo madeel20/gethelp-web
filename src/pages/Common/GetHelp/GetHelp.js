@@ -7,10 +7,12 @@ import {auth, database} from "../../../firebase";
 import {getHelpGig, updateHelperUserStatus} from "../../../Store/Actions/UsersActions";
 import HelpAccepted from "./HelpAccepted";
 import Notifier from "react-desktop-notification";
+import {useHistory} from 'react-router-dom'
 const GetHelp = ()=> {
 	const dispatch = useDispatch();
 	const [isHelpRequestAssigned,setHelpRequestAssigned] = useState(false);
 	const isNotificationAlreadyShown = useRef(false);
+	const history = useHistory();
 	const stateProps = useSelector(({User})=>{
 		return {...User};
 	});
@@ -34,10 +36,10 @@ const GetHelp = ()=> {
 			});
 	},[]);
 	if(helpGig && helpGig.status === helpGigStatus.ASSIGNED && ((new Date().getTime() - new Date(helpGig.dateTime).getTime())/1000) < 900 ){
-		return <HelpAccepted helperId={helpGig.helperId}  onCancel={()=>setHelpRequestAssigned(false)} />;
+		return <HelpAccepted helperId={helpGig.helperId}  onCancel={()=>{setHelpRequestAssigned(false); history.push("/");}} />;
 	}
 	if(isHelpRequestAssigned  && helpGig && (helpGig.status === helpGigStatus.ACTIVE ||helpGig.status === helpGigStatus.REQUESTED_TO_ASSIGN  )){
-		return <WaitingForHelp onCancel={()=>setHelpRequestAssigned(false)} />;
+		return <WaitingForHelp onCancel={()=>{setHelpRequestAssigned(false);history.push("/");}} />;
 	}
 	else {
 		return <RequestHelp onRequest={()=>{setHelpRequestAssigned(true); }} />;
