@@ -34,9 +34,9 @@ const Home = ()=>{
 	return (
 		<div className={"container"} >
 			<h1 className={"c-h1"}>{data.fullName}</h1>
-			<div className={"d-flex flex-direction-row"}>
+			<div className={"d-flex flex-direction-row hel"}>
 				<Paper elevation={0} className={"m-4 p-4"} >
-					<p>	Are you available to help? </p>
+					<p className="c-p">	Are you available to help? </p>
 					<Switch
 						checked={activeStatus}
 						onChange={(e)=>dispatch(updateHelperUserStatus({status:!activeStatus}))}
@@ -47,14 +47,14 @@ const Home = ()=>{
 					<p className="link-hint mt-2">Please use the “Edit Subjects” link on the left to select<br/> or update subjects you would like to help with.</p>
 				</Paper>
 				<Link to={"/get-help"}><Paper elevation={0} className={"m-4 p-4 d-flex flex-column align-items-center help-container"} >
-					<p>	I need help! </p>
+					<p className="c-p">	I need help! </p>
 					<NearMeIcon fontSize="large" />
 				</Paper>
 				</Link>
 			</div>
 			<p>If you switch toggle to ‘yes,’ keep this tab open; </p>
-			<p>You can focus on other tabs. You’ll receive a notification if someone needs help.</p>
-			<p>Your Google Meet link to help others is shown at the top of the tool bar under your name</p>
+			<p>You can be on another tab, but you’ll receive a notification if someone needs help from you.</p>
+			<p>Your Google Meet link is at the upper left under your name.</p>
 		</div>
 	);
 };

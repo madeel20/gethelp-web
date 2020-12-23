@@ -19,7 +19,7 @@ const FirstStep = ({onNext})=>{
 			setOpen(true);
 			return;
 		}
-		if(parseInt(grade)>10){ setError("Invalid Grade!"); setOpen(true); return;  }
+		if(parseInt(grade)>12){ setError("Invalid Grade!"); setOpen(true); return;  }
 		dispatch(setNewUserData({fullName,grade}));
 		onNext();
 	};
@@ -27,7 +27,7 @@ const FirstStep = ({onNext})=>{
 		<div className="d-flex justify-content-center align-items-center c-h-100">
 			<div className={"auth-container"}>
 				<span className={"c-h1"}>Welcome</span>
-				<p> Let's setup you account. </p>
+				<p> Let's setup your account. </p>
 				<form noValidate autoComplete="off" onSubmit={handleSubmit}>
 					<TextField
 						fullWidth
@@ -55,7 +55,7 @@ const FirstStep = ({onNext})=>{
 						required
 						className={"mb-2"}
 						type="number"
-						InputProps={{ inputProps: { min: 1, max: 10 } }}
+						InputProps={{ inputProps: { min: 1, max: 12 } }}
 						error={error}
 					/>
 					<Button

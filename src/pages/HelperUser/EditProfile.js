@@ -34,7 +34,7 @@ const EditProfile = ()=>{
 			setOpen(true);
 			return;
 		}
-		if(parseInt(grade)>10){ setError("Invalid Grade!"); setOpen(true); return;  }
+		if(parseInt(grade)>12){ setError("Invalid Grade!"); setOpen(true); return;  }
 		dispatch(updateProfileDetails({grade,fullName},()=>{
 			setError("");
 			setMsg("Profile Updated!");
@@ -77,7 +77,7 @@ const EditProfile = ()=>{
 								required
 								className={"mb-2"}
 								type="number"
-								InputProps={{ inputProps: { min: 1, max: 10 } }}
+								InputProps={{ inputProps: { min: 1, max: 12 } }}
 								error={error}
 							/>
 							<Button

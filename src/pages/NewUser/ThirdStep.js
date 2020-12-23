@@ -57,7 +57,7 @@ const ThirdStep = ({onNext})=>{
 		<div className="d-flex justify-content-center align-items-center c-h-100">
 			<div className={"auth-container"}>
 				<span className={"c-h1"}>Welcome</span>
-				<p> Let's setup you account. </p>
+				<p> Let's setup your account. </p>
 				{loading ?
 					<CircularProgress  size={50}/>
 					:
@@ -77,7 +77,7 @@ const ThirdStep = ({onNext})=>{
 						>
 							Next
 						</Button>
-						<span className={'link-hint mt-4'}>Simply click “NEXT” if you just want to get help at this moment</span>
+						<span className={' mt-4'}>Simply click “NEXT” if you just want to get help at this moment.</span>
 					</form>
 				}
 			</div>

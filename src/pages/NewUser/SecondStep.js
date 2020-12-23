@@ -39,7 +39,7 @@ const SecondStep = ({ onNext, onFinish })=>{
 		<div className="d-flex justify-content-center align-items-center c-h-100">
 			<div className={"auth-container"}>
 				<span className={"c-h1"}>Welcome</span>
-				<p> Let's setup you account. </p>
+				<p> Let's setup your account. </p>
 				{loading ?
 					<CircularProgress size={50}/>
 					:

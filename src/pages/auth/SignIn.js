@@ -14,7 +14,7 @@ export default function SignIn() {
 					<span> Continue with Google</span>
 				</button>
 					<div>
-				<span className={"c-p"}>Create and Account: </span> <Link to={"/sign-up"}> Sign Up</Link>
+				<span className={"c-p"}>Create an Account: </span> <Link to={"/sign-up"}> Sign Up</Link>
 					</div>
 			</div>
 		</div>

@@ -38,9 +38,10 @@ const HelpAccepted =({helperId,onCancel})=>{
 					<CircularProgress size={30}/>
 					:<>
 						<h5>Congrats! {helperUser.fullName} would like to help you!</h5>
+						<p className="c-p">When you go to the meeting, make sure you’re logged onto the same personal Google account.<br/> School accounts do not allow you to join Google meets.</p>
 						<a href={helperUser.meetLink} target={"_blank"}> Go To Meeting </a>
 						<Button color={"secondary"} onClick={handleDone}> Done </Button>
-						<p className="mt-4">Click 'DONE' after the meeting session is finished.</p>
+						<p className="c-p mt-4">Click 'DONE' after the meeting session is finished.</p>
 					</>
 				}
 			</Paper>
