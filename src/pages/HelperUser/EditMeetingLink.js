@@ -12,7 +12,7 @@ import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 import Alert from "@material-ui/lab/Alert/Alert";
 import TextField from "@material-ui/core/TextField/TextField";
 
-const EditMeetingLink = ()=>{
+const EditMeetingLink = ()=> {
 	const dispatch = useDispatch();
 	const [error,setError] = useState(false);
 	const [open,setOpen] = useState(false);

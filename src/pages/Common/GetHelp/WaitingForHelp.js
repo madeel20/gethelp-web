@@ -27,6 +27,7 @@ const WaitingForHelp =({onCancel})=>{
 		if(gig.lastHelperAssigned){
 			await database.ref("helpers").child(gig.lastHelperAssigned).update({
 				assignedUser: "",
+				assignedTime:""
 			});
 		}
 		dispatch(updateHelpStatus({status: helpGigStatus.CANCELLED,lastHelperAssigned:"",helpersAsked:[],helperId:"",dateTime:""},()=>{

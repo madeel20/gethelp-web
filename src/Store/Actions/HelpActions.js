@@ -12,7 +12,7 @@ export const insertHelp = (payload,CB) => dispatch => {
 			dispatch({type:GetHelp.HELP_INSERTED,payload: {loading:false}});
 			dispatch({type:GetHelp.INSERTING_HELP,payload: {loading:false}});
 			CB && CB();
-			await findHelper();
+			// await findHelper();
 		})
 		.catch((err) => {
 			console.log(err);
