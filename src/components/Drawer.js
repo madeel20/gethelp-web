@@ -156,6 +156,9 @@ export default function PersistentDrawerLeft({routes}) {
 				<Divider />
 				<List>
 					<MappedElement data={routes} renderElement={(obj,index)=>{
+						if(obj.hidden){
+							return null;
+						}
 						return <Link to={obj.route} key={obj.route}>
 							<ListItem button>
 								<ListItemText primary={obj.title} />
