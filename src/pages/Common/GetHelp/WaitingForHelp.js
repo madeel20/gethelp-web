@@ -30,7 +30,7 @@ const WaitingForHelp =({onCancel})=>{
 				assignedTime:""
 			});
 		}
-		dispatch(updateHelpStatus({status: helpGigStatus.CANCELLED,lastHelperAssigned:"",helpersAsked:[],helperId:"",dateTime:""},()=>{
+		dispatch(updateHelpStatus({status: helpGigStatus.CANCELLED,lastHelperAssigned:"",lastHelperAssignedTime:"",helpersAsked:[],helperId:"",dateTime:""},()=>{
 			onCancel();
 		}));
 	};

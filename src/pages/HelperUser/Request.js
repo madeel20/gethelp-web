@@ -41,7 +41,7 @@ const Request = ({onAccepted})=>{
 	};
 	const handleAccept =()=>{
 		setLoading(true);
-		dispatch(updateHelpGig(helperUserData.assignedUser,{ status: helpGigStatus.ASSIGNED,helperId: auth.currentUser.uid},()=> {
+		dispatch(updateHelpGig(helperUserData.assignedUser,{ status: helpGigStatus.ASSIGNED,helperId: auth.currentUser.uid,lastHelperAssignedTime:""},()=> {
 			dispatch(insertIntoAcceptedGigs(helperUserData.assignedUser, () => {
 				dispatch(setAssignedUserOfHelperUser({assignedUser: "",assignedTime:""}, () => {
 					onAccepted();
