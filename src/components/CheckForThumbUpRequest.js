@@ -1,11 +1,9 @@
 import React, {useEffect, useRef, useState} from "react";
 import {database, auth, firestore} from "../firebase";
-import {convertDBSnapshoptToArrayOfObject, convertToArray} from "../utils/helpers";
+import {convertDBSnapshoptToArrayOfObject, convertToArray, showNotification} from "../utils/helpers";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 import Button from "@material-ui/core/Button";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import Notifier from "react-desktop-notification";
-import {websiteLink} from "../utils/Constants";
 
 const CheckForThumbsUpRequest = ()=>{
 	const [currentGig,setCurrentGig] = useState({});
@@ -26,7 +24,7 @@ const CheckForThumbsUpRequest = ()=>{
 					firestore.collection("users").where("id","==",res[0].helperId).get().then(r=>{
 						if(r.docs.length>0){
 							setHelperUser(convertToArray(r.docs)[0]);
-							Notifier.start("Would you like to give your helper "+ convertToArray(r.docs)[0].fullName +" a thumbs-up?","",websiteLink);
+							showNotification("Would you like to give your helper "+ convertToArray(r.docs)[0].fullName +" a thumbs-up?");
 							setCurrentGig(res[0]);
 							setOpen(true);
 							clearInterval(intervalObj.current);

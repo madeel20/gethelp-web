@@ -5,19 +5,18 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { UserRoles, websiteLink } from "../utils/Constants";
 import { HelperUserRoutes, NormalUserRoutes } from "../pages/Routes";
-import { MappedElement } from "../utils/helpers";
+import { MappedElement, showNotification } from "../utils/helpers";
 import { auth, database, firestore } from "../firebase";
 import { getHelperUserData, updateHelperUserStatus } from "../Store/Actions/UsersActions";
 import { helperStatus } from "../utils/Constants";
 import CheckForThumbUpRequest from "../components/CheckForThumbUpRequest";
-import Notifier from "react-desktop-notification";
 const HelperUserStack = () => {
 	const intervaObj = useRef();
 	const dispatch = useDispatch();
-	const stateProps = useSelector(({User})=>{
-		return {...User};
+	const stateProps = useSelector(({ User }) => {
+		return { ...User };
 	});
-	const { data, activeStatus,helperUserData } = stateProps;
+	const { data, activeStatus, helperUserData } = stateProps;
 	useEffect(() => {
 		intervaObj.current = setInterval(() => updateLastActive(),
 			5000);
@@ -25,7 +24,7 @@ const HelperUserStack = () => {
 			database
 				.ref("helpers").child(auth.currentUser.uid).on("value", (snapshot) => {
 					dispatch(updateHelperUserStatus({ status: snapshot && snapshot.val() && Object.entries(snapshot.val()).length > 1 ? snapshot.val().status : helperStatus.AVAILABLE }));
-					dispatch(getHelperUserData(snapshot && snapshot.val() && Object.entries(snapshot.val()).length > 2 ? snapshot.val() : { assignedUser: "",assignedTime:"" }));
+					dispatch(getHelperUserData(snapshot && snapshot.val() && Object.entries(snapshot.val()).length > 2 ? snapshot.val() : { assignedUser: "", assignedTime: "" }));
 				});
 		}
 		catch (e) {
@@ -35,19 +34,16 @@ const HelperUserStack = () => {
 			clearInterval(intervaObj.current);
 		};
 	}, []);
-	useEffect(()=>{
-		if(helperUserData.hasOwnProperty('assignedUser') && helperUserData.assignedUser!=="") {
-			console.log('i ran laskdjf')
+	useEffect(() => {
+		if (helperUserData.hasOwnProperty('assignedUser') && helperUserData.assignedUser !== "") {
 			database.ref("helpGigs").child(helperUserData.assignedUser).once("value").then(res => {
-				console.log('i ran laskdjf')
-				firestore.collection("users").where("id","==",helperUserData.assignedUser).get().then(res=>{
-					console.log('i ran laskdjf')
-					Notifier.start(res.docs[0].data().fullName +" needs your help!","",websiteLink);
+				firestore.collection("users").where("id", "==", helperUserData.assignedUser).get().then(res => {
+					showNotification(res.docs[0].data().fullName + " needs your help!");
 				});
 			}
 			);
 		}
-	},[helperUserData.assignedUser]);
+	}, [helperUserData.assignedUser]);
 	const updateLastActive = () => {
 		database
 			.ref("helpers").child(auth.currentUser.uid)
@@ -59,7 +55,7 @@ const HelperUserStack = () => {
 			<PersistentDrawerLeft routes={HelperUserRoutes} />
 			<div className="layout">
 				<Switch>
-				
+
 					<MappedElement data={HelperUserRoutes} renderElement={(obj, index) => {
 						return <Route key={obj.route} path={obj.route} component={obj.component} exact={obj.exact}>
 						</Route>;

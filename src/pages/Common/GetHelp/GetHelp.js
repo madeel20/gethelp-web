@@ -6,8 +6,8 @@ import {helperStatus, helpGigStatus, websiteLink} from "../../../utils/Constants
 import {auth, database} from "../../../firebase";
 import {getHelpGig, updateHelperUserStatus} from "../../../Store/Actions/UsersActions";
 import HelpAccepted from "./HelpAccepted";
-import Notifier from "react-desktop-notification";
 import {useHistory} from 'react-router-dom'
+import { showNotification } from "../../../utils/helpers";
 const GetHelp = ()=> {
 	const dispatch = useDispatch();
 	const [isHelpRequestAssigned,setHelpRequestAssigned] = useState(false);
@@ -23,7 +23,7 @@ const GetHelp = ()=> {
 			setHelpRequestAssigned(true);
 		}
 		if(helpGig && helpGig.status === helpGigStatus.TIMEOUT && !isNotificationAlreadyShown.current){
-			Notifier.start("Sorry, No Helper is currently available! Try Again.","",websiteLink);
+			showNotification("Sorry, No Helper is currently available! Try Again.");
 			isNotificationAlreadyShown.current = true;
 		}
 	},[helpGig]);

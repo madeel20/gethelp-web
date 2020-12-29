@@ -3,7 +3,6 @@ import Paper from "@material-ui/core/Paper/Paper";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import Button from "@material-ui/core/Button";
 import {auth, database, firestore} from "../../firebase";
-import Notifier from "react-desktop-notification";
 import {useDispatch, useSelector} from "react-redux";
 import {insertIntoAcceptedGigs, setAssignedUserOfHelperUser, updateHelpGig} from "../../Store/Actions/HelpActions";
 import {helpGigStatus, websiteLink} from "../../utils/Constants";
@@ -24,7 +23,6 @@ const Request = ({onAccepted})=>{
 				setCurrentRequest(res.val());
 				firestore.collection("users").where("id","==",helperUserData.assignedUser).get().then(res=>{
 					setRequestUser(res.docs[0].data());
-					// Notifier.start(res.docs[0].data().fullName +" needs your help!","",websiteLink);
 					setLoading(false);
 				});
 			}

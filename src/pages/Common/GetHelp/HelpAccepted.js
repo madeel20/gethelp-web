@@ -7,7 +7,7 @@ import {updateHelpStatus} from "../../../Store/Actions/HelpActions";
 import { helpGigStatus, websiteLink} from "../../../utils/Constants";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import {firestore} from "../../../firebase";
-import Notifier from "react-desktop-notification";
+import { showNotification } from "../../../utils/helpers";
 
 const HelpAccepted =({helperId,onCancel})=>{
 	const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const HelpAccepted =({helperId,onCancel})=>{
 			if(res.docs.length>0){
 				setHelperUser(res.docs[0].data());
 				setLoading(false);
-				Notifier.start(res.docs[0].data().fullName +" has accepted you request!","",websiteLink);
+				showNotification(res.docs[0].data().fullName +" has accepted you request!");
 			}
 		});
 	},[]);
