@@ -1,48 +1,50 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import WaitingForHelp from "./WaitingForHelp";
 import RequestHelp from "./RequestHelp";
-import {useDispatch, useSelector} from "react-redux";
-import {helperStatus, helpGigStatus, websiteLink} from "../../../utils/Constants";
-import {auth, database} from "../../../firebase";
-import {getHelpGig, updateHelperUserStatus} from "../../../Store/Actions/UsersActions";
+import { useDispatch, useSelector } from "react-redux";
+import { helperStatus, helpGigStatus } from "../../../utils/Constants";
+import { auth, database } from "../../../firebase";
+import { getHelpGig, updateHelperUserStatus } from "../../../Store/Actions/UsersActions";
 import HelpAccepted from "./HelpAccepted";
-import {useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { showNotification } from "../../../utils/helpers";
-const GetHelp = ()=> {
+const GetHelp = () => {
 	const dispatch = useDispatch();
-	const [isHelpRequestAssigned,setHelpRequestAssigned] = useState(false);
+	const [isHelpRequestAssigned, setHelpRequestAssigned] = useState(false);
 	const isNotificationAlreadyShown = useRef(false);
 	const history = useHistory();
-	const stateProps = useSelector(({User})=>{
-		return {...User};
+	const stateProps = useSelector(({ User }) => {
+		return { ...User };
 	});
-	const {helpGig} = stateProps;
-	useEffect(()=>{
-		dispatch(updateHelperUserStatus({status:helperStatus.NOT_AVAILABLE}))
-		if(helpGig && helpGig.status === helpGigStatus.ACTIVE){
+	const { helpGig } = stateProps;
+	useEffect(() => {
+		dispatch(updateHelperUserStatus({ status: helperStatus.NOT_AVAILABLE }))
+		if (helpGig && helpGig.status === helpGigStatus.ACTIVE) {
 			setHelpRequestAssigned(true);
 		}
-		if(helpGig && helpGig.status === helpGigStatus.TIMEOUT && !isNotificationAlreadyShown.current){
+		if (helpGig && helpGig.status === helpGigStatus.TIMEOUT && !isNotificationAlreadyShown.current) {
 			showNotification("Sorry, No Helper is currently available! Try Again.");
 			isNotificationAlreadyShown.current = true;
+			database
+				.ref("helpGigs").child(auth.currentUser.uid).update({status:helpGigStatus.CANCELLED});			
 		}
-	},[helpGig]);
-	useEffect(()=>{
+	}, [helpGig]);
+	useEffect(() => {
 		database
 			.ref("helpGigs").child(auth.currentUser.uid).on("value", (snapshot) => {
-				if(snapshot && snapshot.val() && Object.entries(snapshot.val()).length > 0) {
+				if (snapshot && snapshot.val() && Object.entries(snapshot.val()).length > 0) {
 					dispatch(getHelpGig(snapshot.val()));
 				}
 			});
-	},[]);
-	if(helpGig && helpGig.status === helpGigStatus.ASSIGNED && ((new Date().getTime() - new Date(helpGig.dateTime).getTime())/1000) < 900 ){
-		return <HelpAccepted helperId={helpGig.helperId}  onCancel={()=>{setHelpRequestAssigned(false); history.push("/");}} />;
+	}, []);
+	if (helpGig && helpGig.status === helpGigStatus.ASSIGNED && ((new Date().getTime() - new Date(helpGig.dateTime).getTime()) / 1000) < 900) {
+		return <HelpAccepted helperId={helpGig.helperId} onCancel={() => { setHelpRequestAssigned(false); history.push("/"); }} />;
 	}
-	if(isHelpRequestAssigned  && helpGig && (helpGig.status === helpGigStatus.ACTIVE ||helpGig.status === helpGigStatus.REQUESTED_TO_ASSIGN  )){
-		return <WaitingForHelp onCancel={()=>{setHelpRequestAssigned(false);history.push("/");}} />;
+	if (isHelpRequestAssigned && helpGig && (helpGig.status === helpGigStatus.ACTIVE || helpGig.status === helpGigStatus.REQUESTED_TO_ASSIGN)) {
+		return <WaitingForHelp onCancel={() => { setHelpRequestAssigned(false); history.push("/"); }} />;
 	}
 	else {
-		return <RequestHelp onRequest={()=>{setHelpRequestAssigned(true); }} />;
+		return <RequestHelp onRequest={() => { setHelpRequestAssigned(true); }} />;
 	}
 };
 export default GetHelp;
