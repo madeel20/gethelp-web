@@ -30,7 +30,6 @@ const HelpAccepted = ({ helperId, onCancel, helpGig }) => {
 	useEffect(() => {
 		if (helpGig && helpGig.acceptedGigsId) {
 			database.ref("acceptedGigs").child(helpGig.acceptedGigsId).once("value").then(res => {
-				console.log(res.val());
 				setAcceptedObj({ ...res.val() });
 			})
 		}
@@ -52,7 +51,6 @@ const HelpAccepted = ({ helperId, onCancel, helpGig }) => {
 	};
 	const handleYes = () => {
 		setLoading(true);
-		console.log(helpGig)
 		database.ref("acceptedGigs").child(helpGig.acceptedGigsId).update({ thumbsUp: true }).then(() => {
 			setLoading(false);
 			setAcceptedObj({});
