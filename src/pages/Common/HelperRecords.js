@@ -11,7 +11,6 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
-import ThumbDownAltIcon from "@material-ui/icons/ThumbDownAlt";
 import {useSelector} from "react-redux";
 import {UserRoles} from "../../utils/Constants";
 const useStyles = makeStyles({

@@ -38,7 +38,7 @@ const GetHelp = () => {
 			});
 	}, []);
 	if (helpGig && helpGig.status === helpGigStatus.ASSIGNED && ((new Date().getTime() - new Date(helpGig.dateTime).getTime()) / 1000) < 900) {
-		return <HelpAccepted helperId={helpGig.helperId} onCancel={() => { setHelpRequestAssigned(false); history.push("/"); }} />;
+		return <HelpAccepted helperId={helpGig.helperId} helpGig={helpGig} onCancel={() => { setHelpRequestAssigned(false); history.push("/"); }} />;
 	}
 	if (isHelpRequestAssigned && helpGig && (helpGig.status === helpGigStatus.ACTIVE || helpGig.status === helpGigStatus.REQUESTED_TO_ASSIGN)) {
 		return <WaitingForHelp onCancel={() => { setHelpRequestAssigned(false); history.push("/"); }} />;

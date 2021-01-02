@@ -1,49 +1,51 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Paper from "@material-ui/core/Paper/Paper";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import Button from "@material-ui/core/Button";
-import {auth, database, firestore} from "../../firebase";
-import {useDispatch, useSelector} from "react-redux";
-import {insertIntoAcceptedGigs, setAssignedUserOfHelperUser, updateHelpGig} from "../../Store/Actions/HelpActions";
-import {helpGigStatus, websiteLink} from "../../utils/Constants";
+import { auth, database, firestore } from "../../firebase";
+import { useDispatch, useSelector } from "react-redux";
+import { insertIntoAcceptedGigs, setAssignedUserOfHelperUser, updateHelpGig } from "../../Store/Actions/HelpActions";
+import { helpGigStatus, websiteLink } from "../../utils/Constants";
 
-const Request = ({onAccepted})=>{
+const Request = ({ onAccepted }) => {
 	const dispatch = useDispatch();
-	const [currentRequest,setCurrentRequest] = useState({});
-	const [requestUser,setRequestUser] = useState({});
-	const [loading,setLoading] = useState(false);
-	const stateProps = useSelector(({User})=>{
-		return {...User};
+	const [currentRequest, setCurrentRequest] = useState({});
+	const [requestUser, setRequestUser] = useState({});
+	const [loading, setLoading] = useState(false);
+	const stateProps = useSelector(({ User }) => {
+		return { ...User };
 	});
-	const { data,helperUserData } = stateProps;
-	useEffect(()=>{
-		if(helperUserData.hasOwnProperty('assignedUser') && helperUserData.assignedUser!=="") {
+	const { data, helperUserData } = stateProps;
+	useEffect(() => {
+		if (helperUserData.hasOwnProperty('assignedUser') && helperUserData.assignedUser !== "") {
 			setLoading(true);
 			database.ref("helpGigs").child(helperUserData.assignedUser).once("value").then(res => {
 				setCurrentRequest(res.val());
-				firestore.collection("users").where("id","==",helperUserData.assignedUser).get().then(res=>{
+				firestore.collection("users").where("id", "==", helperUserData.assignedUser).get().then(res => {
 					setRequestUser(res.docs[0].data());
 					setLoading(false);
 				});
 			}
 			);
 		}
-	},[helperUserData.assignedUser]);
-	const handleCancel =()=>{
+	}, [helperUserData.assignedUser]);
+	const handleCancel = () => {
 		setLoading(true);
-		dispatch(updateHelpGig(helperUserData.assignedUser,{ status: helpGigStatus.ACTIVE},()=> {
-			dispatch(setAssignedUserOfHelperUser({assignedUser: "",assignedTime:""}, () => {
+		dispatch(updateHelpGig(helperUserData.assignedUser, { status: helpGigStatus.ACTIVE }, () => {
+			dispatch(setAssignedUserOfHelperUser({ assignedUser: "", assignedTime: "" }, () => {
 				setLoading(false);
 			}));
 		}));
 	};
-	const handleAccept =()=>{
+	const handleAccept = () => {
 		setLoading(true);
-		dispatch(updateHelpGig(helperUserData.assignedUser,{ status: helpGigStatus.ASSIGNED,helperId: auth.currentUser.uid,lastHelperAssignedTime:""},()=> {
-			dispatch(insertIntoAcceptedGigs(helperUserData.assignedUser, () => {
-				dispatch(setAssignedUserOfHelperUser({assignedUser: "",assignedTime:""}, () => {
-					onAccepted();
-					setLoading(false);
+		dispatch(updateHelpGig(helperUserData.assignedUser, { status: helpGigStatus.ASSIGNED, helperId: auth.currentUser.uid, lastHelperAssignedTime: "" }, () => {
+			dispatch(insertIntoAcceptedGigs(helperUserData.assignedUser, (key) => {
+				dispatch(updateHelpGig(helperUserData.assignedUser, { acceptedGigsId: key }, () => {
+					dispatch(setAssignedUserOfHelperUser({ assignedUser: "", assignedTime: "" }, () => {
+						onAccepted();
+						setLoading(false);
+					}));
 				}));
 			}));
 		}));
@@ -53,7 +55,7 @@ const Request = ({onAccepted})=>{
 			<h1>Hi {data.fullName}</h1>
 			<Paper className={"d-flex flex-direction-row p-4 p-4"}>
 				{loading ?
-					<CircularProgress size={30}/>
+					<CircularProgress size={30} />
 					:
 					<div className={"d-flex flex-column align-items-center"}>
 						<h5>{requestUser.fullName} of Grade {currentRequest.grade} needs your help in {currentRequest.subjectName}.</h5>
