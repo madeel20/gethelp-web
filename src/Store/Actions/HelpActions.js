@@ -101,7 +101,7 @@ const findHelper = async () => {
 		// filter by grade --> equal or greater then user grade
 		finalHelpersData = await finalHelpersData.filter(it => parseInt(it.grade) === parseInt(helpGig.val().grade) || parseInt(it.grade) > parseInt(helpGig.val().grade));
 		console.log(finalHelpersData,)
-		// filter by subject
+		// filter by subject -
 		finalHelpersData = await finalHelpersData.filter(it => it.subjects.filter(subject => subject.id === helpGig.val().subjectId).length > 0);
 		// if the find a match then assign him user help gig
 		if (finalHelpersData.length > 0) {

@@ -7,6 +7,7 @@ import { updateHelpStatus } from "../../../Store/Actions/HelpActions";
 import { helpGigStatus, websiteLink } from "../../../utils/Constants";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import { auth, database, firestore } from "../../../firebase";
+import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import { convertDBSnapshoptToArrayOfObject, showNotification } from "../../../utils/helpers";
 
 const HelpAccepted = ({ helperId, onCancel, helpGig }) => {
@@ -73,8 +74,8 @@ const HelpAccepted = ({ helperId, onCancel, helpGig }) => {
 					</Paper>
 					{Object.entries(acceptedGigObj).length > 0 && !acceptedGigObj.hasOwnProperty('thumbsUp') &&
 						<Paper className={"p-2 mt-4 text-center"}>
-							<p>Would you like to give your helper {helperUser.fullName} a thumbs-up?</p>
-							<span><Button onClick={handleYes} className={"mr-4"} color={"primary"}>Yes</Button>
+							<p>If you found the session helpful, please feel free to give {helperUser.fullName} a thumbs up.</p>
+							<span><Button onClick={handleYes} className={"mr-4"} color={"primary"}><ThumbUpAltIcon/></Button>
 								<Button onClick={handleNo} color={"secondary"}>Not this time
 								</Button></span>
 						</Paper>
