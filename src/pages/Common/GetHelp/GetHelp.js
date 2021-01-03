@@ -22,7 +22,7 @@ const GetHelp = () => {
 		if (helpGig && helpGig.status === helpGigStatus.ACTIVE) {
 			setHelpRequestAssigned(true);
 		}
-		if (helpGig && helpGig.status === helpGigStatus.TIMEOUT ) {
+		if (helpGig && helpGig.status === helpGigStatus.TIMEOUT) {
 			showNotification("Sorry, No Helper is currently available! Try Again.");
 			isNotificationAlreadyShown.current = true;
 			database

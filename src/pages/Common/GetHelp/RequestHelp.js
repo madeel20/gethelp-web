@@ -69,6 +69,9 @@ const RequestHelp =({onRequest})=>{
 					:
 					<>
 						<h1 className={"c-h1"}> Ask for help </h1>
+						<p className={"link-hint large mt-2"}>Please be ready to share your screen with the problem you try to solve.</p>
+				<p className={"link-hint large"}>If your problem is on paper, please take a photo using your phone and<br/> show the photo on your computer screen.</p>
+				<p className={"link-hint large"}>Once you are ready, please select subject below.</p>
 						<form className={"p-4 d-flex flex-column justify-content-center align-items-center"} noValidate autoComplete="off" onSubmit={handleSubmit} className={"p-4"}>
 							<FormControl component="fieldset">
 								<FormLabel component="legend">What subject would you like to be helped with?</FormLabel>
@@ -88,8 +91,7 @@ const RequestHelp =({onRequest})=>{
 						</form>
 					</>
 				}
-				<p className={"link-hint large mt-2"}>Please be ready to share your screen with the problem you try to solve.</p>
-				<p className={"link-hint large"}>If your problem is on paper, please take a photo using your phone and show the photo on your computer screen.</p>
+				
 				<Snackbar open={open} autoHideDuration={3000} onClose={()=>setOpen(false)}>
 					<>
 						{error !=="" && <Alert elevation={6} variant="filled" severity="warning">{error}</Alert>}

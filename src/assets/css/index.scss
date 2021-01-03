@@ -41,10 +41,10 @@
 
     }
     .link-hint{
-      font-size: 12px;
+      font-size: 12px !important;
       color: grey;
       &.large{
-          font-size: 12px;
+          font-size: 15px !important;
       }
     }
   }
@@ -69,6 +69,9 @@ a{
 .link-hint{
   font-size: 12px !important;
   color: grey;
+  &.large{
+    font-size: 15px;
+  } 
 }
 .c-notification{
   background-color: white;
