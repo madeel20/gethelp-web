@@ -29,8 +29,12 @@ export const convertDBSnapshoptToArrayOfObject = (snapshot) => {
 };
 //#endregion
 export const showNotification = text => {
+	if (!("Notification" in window)) {
+		console.log("This browser does not support desktop notification");
+		return;
+	}
 	let notification = new Notification(text);
 	notification.onclick = function () {
 		window.focus();
 	};
-}
+};
