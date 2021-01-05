@@ -31,7 +31,7 @@ const Request = ({ onAccepted }) => {
 	}, [helperUserData.assignedUser]);
 	const handleCancel = () => {
 		setLoading(true);
-		dispatch(updateHelpGig(helperUserData.assignedUser, { status: helpGigStatus.ACTIVE }, () => {
+		dispatch(updateHelpGig(helperUserData.assignedUser, { status: helpGigStatus.ACTIVE, lastHelperAssignedTime:"" ,helperId:""}, () => {
 			dispatch(setAssignedUserOfHelperUser({ assignedUser: "", assignedTime: "" }, () => {
 				setLoading(false);
 			}));

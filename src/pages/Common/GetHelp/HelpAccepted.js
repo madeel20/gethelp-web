@@ -48,6 +48,7 @@ const HelpAccepted = ({ helperId, onCancel, helpGig }) => {
 			// setOpen(false);
 			// start listener again
 			// setIntervalFlag(Math.random());
+			handleDone();
 		});
 	};
 	const handleYes = () => {
@@ -58,6 +59,7 @@ const HelpAccepted = ({ helperId, onCancel, helpGig }) => {
 			// setOpen(false);
 			// start listener again
 			// setIntervalFlag(Math.random());
+			handleDone();
 		});
 	};
 	return (

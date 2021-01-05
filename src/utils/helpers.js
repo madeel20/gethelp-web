@@ -27,14 +27,22 @@ export const convertDBSnapshoptToArrayOfObject = (snapshot) => {
 	}
 	return arr;
 };
-//#endregion
 export const showNotification = text => {
-	if (!("Notification" in window)) {
-		console.log("This browser does not support desktop notification");
-		return;
+	if (isNewNotificationSupported()) {
+		try {
+			let notification = new Notification(text);
+			notification.onclick = function () {
+				window.focus();
+			};
+		}
+		catch (err) {
+			console.log('notification not found!')
+		}
 	}
-	let notification = new Notification(text);
-	notification.onclick = function () {
-		window.focus();
-	};
+};
+function isNewNotificationSupported() {
+	if (!window.Notification || !Notification.requestPermission)
+		return false;
+	if (Notification.permission == 'granted')
+		return true;
 };
