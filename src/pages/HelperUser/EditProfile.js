@@ -53,11 +53,19 @@ const EditProfile = ()=>{
 
 						<TextField
 								fullWidth
+								name={"email"}
+								label="Email"
+								defaultValue={data?.email}
+								className={"c-input"}
+								variant="outlined"
+								disabled={true}
+							/>
+							<TextField
+								fullWidth
 								error={false}
 								name={"fullname"}
 								label="Full Name"
-								defaultValue={fullName}
-								className={"mb-2"}
+								className={"c-input"}
 								onChange={e=>setFullName(e.target.value)}
 								variant="outlined"
 								required
@@ -72,10 +80,9 @@ const EditProfile = ()=>{
 								name={"grade"}
 								value={grade}
 								onChange={e=>setGrade(e.target.value)}
-								defaultValue={grade}
 								variant="outlined"
 								required
-								className={"mb-2"}
+								className={"c-input"}
 								type="number"
 								InputProps={{ inputProps: { min: 1, max: 12 } }}
 								error={error}
