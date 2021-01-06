@@ -16,7 +16,7 @@ const GetHelp = () => {
 	const stateProps = useSelector(({ User }) => {
 		return { ...User };
 	});
-	const { helpGig } = stateProps;
+	const { helpGig,data } = stateProps;
 	useEffect(() => {
 		dispatch(updateHelperUserStatus({ status: helperStatus.NOT_AVAILABLE }))
 		if (helpGig && helpGig.status === helpGigStatus.ACTIVE) {
@@ -38,7 +38,7 @@ const GetHelp = () => {
 			});
 	}, []);
 	if (helpGig && helpGig.status === helpGigStatus.ASSIGNED && ((new Date().getTime() - new Date(helpGig.dateTime).getTime()) / 1000) < 900) {
-		return <HelpAccepted helperId={helpGig.helperId} helpGig={helpGig} onCancel={() => { setHelpRequestAssigned(false); history.push("/"); }} />;
+		return <HelpAccepted helperId={helpGig.helperId} user={data} helpGig={helpGig} onCancel={() => { setHelpRequestAssigned(false); history.push("/"); }} />;
 	}
 	if (isHelpRequestAssigned && helpGig && (helpGig.status === helpGigStatus.ACTIVE || helpGig.status === helpGigStatus.REQUESTED_TO_ASSIGN)) {
 		return <WaitingForHelp onCancel={() => { setHelpRequestAssigned(false); history.push("/"); }} />;

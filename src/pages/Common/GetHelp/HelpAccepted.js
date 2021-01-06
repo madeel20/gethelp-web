@@ -10,7 +10,7 @@ import { auth, database, firestore } from "../../../firebase";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import { convertDBSnapshoptToArrayOfObject, showNotification } from "../../../utils/helpers";
 
-const HelpAccepted = ({ helperId, onCancel, helpGig }) => {
+const HelpAccepted = ({ helperId, onCancel, helpGig,user }) => {
 	const dispatch = useDispatch();
 	const [helperUser, setHelperUser] = useState({});
 	const [loading, setLoading] = useState(false);
@@ -67,17 +67,17 @@ const HelpAccepted = ({ helperId, onCancel, helpGig }) => {
 			{loading ?
 				<Paper className={"p-4 text-center"}><CircularProgress size={30} /></Paper>
 				: <>
-					<Paper className={"p-4 text-center"}>
+					<Paper className={"p-4  text-center"}>
 						<h5>Congrats! {helperUser.fullName} would like to help you!</h5>
-						<p className="c-p">When you go to the meeting, make sure you’re logged onto the same personal Google account.<br /> School accounts do not allow you to join Google meets.</p>
+						<p className="c-p mt-4 mb-4">When you go to the meeting, make sure you’re logged onto<br/> the same personal Google account ({user?.email}).<br /> School accounts do not allow you to join Google meets.</p>
 						<a href={helperUser.meetLink} target={"_blank"}> Go To Meeting </a>
-						<Button color={"secondary"} onClick={handleDone}> Done </Button>
-						<p className="c-p mt-4">Click 'DONE' after the meeting session is finished.</p>
+						{/* <Button color={"secondary"} onClick={handleDone}> Done </Button> */}
+						{/* <p className="c-p mt-4">Click 'DONE' after the meeting session is finished.</p> */}
 					</Paper>
 					{Object.entries(acceptedGigObj).length > 0 && !acceptedGigObj.hasOwnProperty('thumbsUp') &&
 						<Paper className={"p-2 mt-4 text-center"}>
-							<p>If you found the session helpful, please feel free to give {helperUser.fullName} a thumbs up.</p>
-							<span><Button onClick={handleYes} className={"mr-4"} color={"primary"}><ThumbUpAltIcon/></Button>
+							<p>After you finish with the Google meeting, if you found the session helpful,<br/> please remember to give {helperUser.fullName} a thumbs up.</p>
+							<span><Button onClick={handleYes} className={"mr-4"} color={"primary"}><ThumbUpAltIcon className={'thumbsup-icon'}/></Button>
 								<Button onClick={handleNo} color={"secondary"}>Not this time
 								</Button></span>
 						</Paper>
