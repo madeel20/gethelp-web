@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -9,6 +9,7 @@ import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
+import PersonIcon from '@material-ui/icons/Person';
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
@@ -17,13 +18,14 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import ListItemText from "@material-ui/core/ListItemText";
 import { useHistory } from "react-router-dom";
-import {logOut} from "../firebase/helpers";
-import {useDispatch, useSelector} from "react-redux";
-import {MappedElement} from "../utils/helpers";
-import {Link} from "react-router-dom";
-import {helpGigStatus, UserRoles} from "../utils/Constants";
-import {auth, database} from "../firebase";
-import {getHelpGig} from "../Store/Actions/UsersActions";
+import { logOut } from "../firebase/helpers";
+import { useDispatch, useSelector } from "react-redux";
+import { MappedElement } from "../utils/helpers";
+import { Link } from "react-router-dom";
+import { helpGigStatus, UserRoles } from "../utils/Constants";
+import { auth, database } from "../firebase";
+import { getHelpGig } from "../Store/Actions/UsersActions";
+import { Avatar, Button, Popover } from "@material-ui/core";
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -34,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 			easing: theme.transitions.easing.sharp,
 			duration: theme.transitions.duration.leavingScreen,
 		}),
-		backgroundColor:"#F0826E !important"
+		backgroundColor: "#F0826E !important"
 	},
 	appBarShift: {
 		width: `calc(100% - ${drawerWidth}px)`,
@@ -82,28 +84,40 @@ const useStyles = makeStyles((theme) => ({
 		marginLeft: 0,
 	},
 }));
-export default function PersistentDrawerLeft({routes}) {
+export default function PersistentDrawerLeft({ routes }) {
 	const classes = useStyles();
 	const theme = useTheme();
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const [open, setOpen] = React.useState(true);
-	const stateProps = useSelector(({User})=>{
-		return {...User};
+	const [anchorEl, setAnchorEl] = React.useState(null);
+
+	const handleClick = (event) => {
+		setAnchorEl(event.currentTarget);
+	};
+
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
+
+	const modalOpen = Boolean(anchorEl);
+	const id = open ? 'simple-popover' : undefined;
+	const stateProps = useSelector(({ User }) => {
+		return { ...User };
 	});
-	const { data , helpGig} = stateProps;
-	useEffect(()=>{
+	const { data, helpGig } = stateProps;
+	useEffect(() => {
 		database.ref("helpGigs").child(auth.currentUser.uid)
 			.on("value", (snapshot) => {
 				dispatch(getHelpGig(snapshot.val()));
 			});
-	},[]);
-	useEffect(()=> {
-		if(helpGig && helpGig.status === helpGigStatus.ACTIVE){
+	}, []);
+	useEffect(() => {
+		if (helpGig && helpGig.status === helpGigStatus.ACTIVE) {
 
-			history.push(data.role === UserRoles.NORMAL_USER?"/":"/get-help");
+			history.push(data.role === UserRoles.NORMAL_USER ? "/" : "/get-help");
 		}
-	},[helpGig]);
+	}, [helpGig]);
 	const handleDrawerOpen = () => {
 		setOpen(true);
 	};
@@ -119,7 +133,7 @@ export default function PersistentDrawerLeft({routes}) {
 					[classes.appBarShift]: open,
 				})}
 			>
-				<Toolbar>
+				<Toolbar className={`top-toolbar ${open?"justify-content-end":"justify-content-between"}`}>
 					<IconButton
 						color="inherit"
 						aria-label="open drawer"
@@ -129,6 +143,43 @@ export default function PersistentDrawerLeft({routes}) {
 					>
 						<MenuIcon />
 					</IconButton>
+					{/* <Button aria-describedby={id} variant="contained" color="primary" onClick={handleClick}>
+						Open Popover
+      </Button> */}
+					<Avatar aria-describedby={id} className={'avatar'} onClick={handleClick}>{data && data.fullName && data.fullName.length>0 ? data.fullName[0] : ''}</Avatar>
+					<Popover
+						id={id}
+						open={modalOpen}
+						anchorEl={anchorEl}
+						onClose={handleClose}
+						anchorOrigin={{
+							vertical: 'bottom',
+							horizontal: 'center',
+						}}
+						transformOrigin={{
+							vertical: 'top',
+							horizontal: 'right',
+						}}
+					>
+						<List component="nav" aria-label="main mailbox folders">
+							<Link to={'edit-profile'} onClick={handleClose} >
+								<ListItem button>
+									<ListItemIcon>
+										<PersonIcon />
+									</ListItemIcon>
+									<ListItemText primary="Profile" />
+								</ListItem>
+							</Link>
+							<ListItem button onClick={() => logOut(() => {
+								history.push('/');
+							})} >
+								<ListItemIcon>
+									<ExitToAppIcon />
+								</ListItemIcon>
+								<ListItemText primary="Sign Out" />
+							</ListItem>
+						</List>
+					</Popover>
 				</Toolbar>
 			</AppBar>
 			<Drawer
@@ -155,8 +206,8 @@ export default function PersistentDrawerLeft({routes}) {
 				</div>
 				<Divider />
 				<List>
-					<MappedElement data={routes} renderElement={(obj,index)=>{
-						if(obj.hidden){
+					<MappedElement data={routes} renderElement={(obj, index) => {
+						if (obj.hidden) {
 							return null;
 						}
 						return <Link to={obj.route} key={obj.route}>
@@ -164,17 +215,17 @@ export default function PersistentDrawerLeft({routes}) {
 								<ListItemText primary={obj.title} />
 							</ListItem>
 						</Link>;
-					}}/>
+					}} />
 				</List>
-				<Divider />
-				<ListItem button onClick={()=> logOut(()=>{
+				{/* <Divider />
+				<ListItem button onClick={() => logOut(() => {
 					history.push('/');
 				})} >
 					<ListItemIcon>
 						<ExitToAppIcon />
 					</ListItemIcon>
-					<ListItemText primary={"Sign Out"}/>
-				</ListItem>
+					<ListItemText primary={"Sign Out"} />
+				</ListItem> */}
 			</Drawer>
 		</div>
 	);
