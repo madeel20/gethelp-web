@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
-import {database, auth, firestore} from "../../firebase";
-import {convertDBSnapshoptToArrayOfObject, convertToArray, MappedElement} from "../../utils/helpers";
+import React, { useEffect, useState } from "react";
+import { database, auth, firestore } from "../../firebase";
+import { convertDBSnapshoptToArrayOfObject, convertToArray, MappedElement } from "../../utils/helpers";
 import Paper from "@material-ui/core/Paper/Paper";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
@@ -11,41 +11,51 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
-import {useSelector} from "react-redux";
-import {UserRoles} from "../../utils/Constants";
+import { useSelector } from "react-redux";
+import { UserRoles } from "../../utils/Constants";
 const useStyles = makeStyles({
 	table: {
 		minWidth: 650,
 	},
 });
 
-const HelperRecords = ()=>{
+const HelperRecords = () => {
 	const classes = useStyles();
-	const stateProps = useSelector(({User})=>{
-		return {...User};
+	const stateProps = useSelector(({ User }) => {
+		return { ...User };
 	});
 	const { data } = stateProps;
-	const [records,setRecords] = useState([]);
-	const [users,setUsers] = useState([]);
-	const [loading,setLoading] = useState(true);
-	useEffect(()=>{
-		database.ref("acceptedGigs").once("value").then((snap)=>{
+	const [records, setRecords] = useState([]);
+	const [users, setUsers] = useState([]);
+	const [loading, setLoading] = useState(true);
+	useEffect(() => {
+		// get accepted gigs data from firebase
+		database.ref("acceptedGigs").orderByChild('dateTime').once("value").then((snap) => {
+			// convert it to javascript array of object
 			let res = convertDBSnapshoptToArrayOfObject(snap);
-			if(data.role === UserRoles.HELPER_USER){setRecords(res.filter(it=>it.helperId === auth.currentUser.uid));}
-			else {setRecords(res.filter(it=>it.userId === auth.currentUser.uid));}
-			firestore.collection("users").get().then((res)=>{
-				setUsers(convertToArray(res.docs,false));
+			// sort the data by dateTime property in desc order
+			res.sort((a, b) => {
+				var c = new Date(b?.dateTime);
+				var d = new Date(a?.dateTime);
+				return c - d;
+			});
+			if (data.role === UserRoles.HELPER_USER) { setRecords(res.filter(it => it.helperId === auth.currentUser.uid)); }
+			else { setRecords(res.filter(it => it.userId === auth.currentUser.uid)); }
+			// get all the user from firebase
+			firestore.collection("users").get().then((res) => {
+				// convert it to javascript array of object
+				setUsers(convertToArray(res.docs, false));
 				setLoading(false);
 			});
 		});
 
-	},[]);
-	if(data.role === UserRoles.HELPER_USER) {
+	}, []);
+	if (data.role === UserRoles.HELPER_USER) {
 		return (
 			<div className={"container"}>
 				<Paper className={"p-4"}>
 					{loading ?
-						<CircularProgress size={30}/>
+						<CircularProgress size={30} />
 						:
 						<>
 							<h1 className={"c-h1"}> Helping Records </h1>
@@ -75,12 +85,12 @@ const HelperRecords = ()=>{
 													<TableCell
 														align="center">{users.find(it => it.id === obj.userId) && users.find(it => it.id === obj.userId).fullName}</TableCell>
 													<TableCell align="center">{obj.subjectName}</TableCell>
-													<TableCell align="center">{obj.hasOwnProperty("thumbsUp")?<>
+													<TableCell align="center">{obj.hasOwnProperty("thumbsUp") ? <>
 														{obj.thumbsUp && obj.thumbsUp === true ?
-															<ThumbUpAltIcon/> : "--"}</>:"--"}</TableCell>
+															<ThumbUpAltIcon className={"thumbsup-icon"} /> : "--"}</> : "--"}</TableCell>
 												</TableRow>
 											);
-										}}/>
+										}} />
 									</TableBody>
 								</Table>
 							</TableContainer>
@@ -95,7 +105,7 @@ const HelperRecords = ()=>{
 			<div className={"container"}>
 				<Paper className={"p-4"}>
 					{loading ?
-						<CircularProgress size={30}/>
+						<CircularProgress size={30} />
 						:
 						<>
 							<h1> Helping Records </h1>
@@ -125,7 +135,7 @@ const HelperRecords = ()=>{
 													<TableCell align="center">{obj.subjectName}</TableCell>
 												</TableRow>
 											);
-										}}/>
+										}} />
 									</TableBody>
 								</Table>
 							</TableContainer>
