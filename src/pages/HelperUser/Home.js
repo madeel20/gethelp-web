@@ -24,6 +24,7 @@ const Home = ()=>{
 			<div className={"container"}>
 				<Paper elevation={0} className={"m-4 p-4 d-flex flex-column justify-content-center text-center"}>
 					<h4>Hey {data.fullName}, go to your google meet link to help! </h4>
+					<p  className="mt-2">Make sure you're logged into the same personal<br></br> Google account ({data?.email}) so you can host your Google meet.</p>
 					<a href={data.meetLink} target={'_blank'} className={"mt-2"}> <p>{data.meetLink}</p></a>
 					<Button color={"primary"} className={" mt-4 mt-4"} onClick={()=>setIsRequestAccepted(false)} >Done</Button>
 					<p className="mt-2">Click 'DONE' after the meeting session is finished.</p>
