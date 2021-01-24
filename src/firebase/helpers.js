@@ -3,6 +3,7 @@ import {convertToArray} from "../utils/helpers";
 import {store} from "../Store/index";
 import Users from "../Store/Constants/Users";
 export const signInWithGoogle = (CB) => {
+	googleProvider.setCustomParameters({prompt: "select_account"});
 	auth.signInWithPopup(googleProvider).then((res) => {
 		// user object
 		CB && CB();

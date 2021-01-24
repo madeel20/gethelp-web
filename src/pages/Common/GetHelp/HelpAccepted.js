@@ -45,9 +45,6 @@ const HelpAccepted = ({ helperId, onCancel, helpGig,user }) => {
 		database.ref("acceptedGigs").child(helpGig.acceptedGigsId).update({ thumbsUp: false }).then(() => {
 			setLoading(false);
 			setAcceptedObj({});
-			// setOpen(false);
-			// start listener again
-			// setIntervalFlag(Math.random());
 			handleDone();
 		});
 	};
